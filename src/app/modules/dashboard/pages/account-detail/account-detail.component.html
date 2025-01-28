@@ -1,1 +1,56 @@
-<p>account-detail works!</p>
+<div class="container">
+  <div class="account-info card">
+    <div class="header">
+      <div>
+        <h1>Número de Cuenta</h1>
+      </div>
+    </div>
+    <div class="numbers">
+      <span>16516515131</span>
+    </div>
+  </div>
+  <div class="balance card">
+    <div class="header">
+      <div>
+        <h1>Saldo</h1>
+      </div>
+    </div>
+    <div class="numbers">
+      <span>$ 2.500,00</span>
+    </div>
+  </div>
+  <div class="transaction-list card">
+    <div class="header">
+      <div>
+        <h1>Lista de Transacciones</h1>
+        <!-- <span>Esta es una lista de todas las transacciones de tu cuenta</span> -->
+      </div>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo de transacción</th>
+            <th>Fecha y Hora</th>
+            <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of transactions" [ngStyle]="getRowStyle(transaction)">
+            <td>{{ transaction.type }}</td>
+            <td>{{ transaction.date }}</td>
+            <td [ngStyle]="{ color: transaction.type === 'DEPOSITO' ? '#22c55e' : '#ef4444' }">
+              {{ transaction.amount | currency }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<div class="floating-buttons">
+  <button class="floating-btn deposit-btn" (click)="onDeposit()">Depósito</button>
+  <button class="floating-btn withdraw-btn" (click)="onWithdraw()">Retiro</button>
+</div>
