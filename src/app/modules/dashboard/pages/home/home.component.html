@@ -1,1 +1,35 @@
-<p>home works!</p>
+<div class="container">
+  <div class="header">
+    <h2>name user</h2>
+    <button class="logout-button">button logout</button>
+  </div>
+
+  <div *ngIf="accounts.length > 0; else emptyState">
+    <table>
+      <thead>
+      <tr>
+        <th>Número cuenta</th>
+        <th>Saldo</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let account of accounts">
+        <td>{{ account.id }}</td>
+        <td>$ {{ account.balance | number:'1.2-2' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #emptyState>
+    <p>No hay cuentas disponibles.</p>
+  </ng-template>
+
+  <button (click)="openCreateAccountModal()">Crear Nueva Cuenta</button>
+
+  <app-create-account
+    *ngIf="showCreateAccountModal"
+    (closeModal)="closeCreateAccountModal()"
+    (accountCreated)="loadAccounts()">
+  </app-create-account>
+</div>

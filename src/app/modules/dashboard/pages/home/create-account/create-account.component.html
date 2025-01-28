@@ -1,0 +1,14 @@
+<h2>Crear Cuenta</h2>
+<label>Tipo de cuenta:</label>
+<select [(ngModel)]="accountType">
+  <option value="CHECKING">Cuenta Corriente</option>
+  <option value="SAVINGS">Cuenta de Ahorros</option>
+</select>
+
+<label>Saldo inicial:</label>
+<input type="number" [(ngModel)]="balance" />
+
+<div class="modal-buttons">
+  <button (click)="close()">Cancelar</button>
+  <button (click)="createAccount()">Crear</button>
+</div>
