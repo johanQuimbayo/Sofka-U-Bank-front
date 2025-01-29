@@ -20,10 +20,6 @@ export class AuthService {
         console.log(response);
         if (response.token) {
           localStorage.setItem("token", response.token);
-
-          // Decodificar y mostrar el payload del token
-          const payload = this.decodeToken(response.token);
-          console.log("Payload del token:", payload);
         }
       })
     );
