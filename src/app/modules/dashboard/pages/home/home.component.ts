@@ -39,4 +39,6 @@ export class HomeComponent implements OnInit {
   closeCreateAccountModal(): void {
     this.showCreateAccountModal = false;
   }
+
+
 }
