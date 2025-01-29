@@ -1,1 +1,67 @@
-<p>account-detail works!</p>
+<div class="container">
+  <div class="account-info card">
+    <div class="header">
+      <div>
+        <h1>Número de Cuenta</h1>
+      </div>
+    </div>
+    <div class="info">
+      <span>16516515131</span>
+    </div>
+  </div>
+  <div class="account-type card">
+    <div class="header">
+      <div>
+        <h1>Tipo de Cuenta</h1>
+      </div>
+    </div>
+    <div class="info">
+      <span>SAVINGS</span>
+    </div>
+  </div>
+  <div class="balance card">
+    <div class="header">
+      <div>
+        <h1>Saldo</h1>
+      </div>
+    </div>
+    <div class="info">
+      <span>$ 2.500,00</span>
+    </div>
+  </div>
+  <div class="transaction-list card">
+    <div class="header">
+      <div>
+        <h1>Lista de Transacciones</h1>
+      </div>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo de transacción</th>
+            <th>Fecha y Hora</th>
+            <th>Saldo Inicial - Saldo Final</th>
+            <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of transactions" [ngStyle]="getRowStyle(transaction)">
+            <td>{{ transaction.transactionType }}</td>
+            <td>{{ transaction.timestamp | timestampFormat }}</td>
+            <td>{{ transaction.initialBalance | currency }} - {{ transaction.finalBalance | currency }}</td>
+            <td [ngStyle]="{ color: transaction.transactionType === 'DEPOSIT' ? '#22c55e' : '#ef4444' }">
+              {{ transaction.amount | currency }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<div class="floating-buttons">
+  <button class="floating-btn deposit-btn" (click)="onDeposit()">Depósito</button>
+  <button class="floating-btn withdraw-btn" (click)="onWithdraw()">Retiro</button>
+</div>
