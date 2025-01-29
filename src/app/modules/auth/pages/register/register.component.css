@@ -42,6 +42,12 @@ body {
   max-width: 400px;
 }
 
+.register-form-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .register-form h1 {
   font-size: 24px;
   color: #000;
