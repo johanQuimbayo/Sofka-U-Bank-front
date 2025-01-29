@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Inject, Output, ViewEncapsulation} from '@angular/core';
 import {AccountService} from "../../../../services/account/account.service";
+import {AuthService} from "../../../../services/auth/auth.service";
 
 interface Account {
   type: string;
@@ -19,7 +20,7 @@ export class CreateAccountComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() accountCreated = new EventEmitter<void>();
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private authService : AuthService) {}
 
   close(): void {
     this.closeModal.emit();
@@ -28,7 +29,7 @@ export class CreateAccountComponent {
   createAccount(): void {
     const newAccount = {
       type: this.accountType,
-      customerId: 1, // Asumiendo que usas el mismo customerId del HomeComponent
+      customerId: this.authService.getUserId(),
       balance: this.balance
     };
 
@@ -40,7 +41,6 @@ export class CreateAccountComponent {
       },
       error: (error) => {
         console.error('Error creating account:', error);
-        // Aquí podrías agregar manejo de errores
       }
     });
   }

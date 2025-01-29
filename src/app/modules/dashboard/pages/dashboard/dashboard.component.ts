@@ -36,6 +36,14 @@ export class DashboardComponent {
     return this.authServices.getUserId();
   }
 
+  getUserName(): string | null {
+    return this.authServices.getUserName();
+  }
+
+  getUserDocumentNumber(): string | null {
+    return this.authServices.getDocumentNumber();
+  }
+
   openCreateAccountModal(): void {
     this.showCreateAccountModal = true;
   }

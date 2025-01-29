@@ -31,7 +31,6 @@ export class AccountDetailComponent implements OnInit {
     if(this.accountId) {
       this.getAccountById(this.accountId);
 
-      // Llamar a streamTransactionsList para empezar a escuchar las transacciones
       this.accountDetailsService.streamTransactionsList(this.accountId);
 
       this.accountDetailsService.getTransactions().subscribe((transactions) => {
