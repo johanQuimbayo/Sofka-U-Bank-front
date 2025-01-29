@@ -39,6 +39,10 @@ export class AccountDetailComponent implements OnInit {
     }
   }
 
+  getAccountIdAsString() {
+    return `${this.accountId}`
+  }
+
   getRowStyle(transaction: any): any {
     const isStriped = this.transactions.indexOf(transaction) % 2 === 1;
     return {

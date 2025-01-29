@@ -65,8 +65,8 @@
   </button>
 </div>
 
-<app-deposit-modal [(show)]="depositModal" account-id="1"></app-deposit-modal>
-<app-withdrawal-modal [(show)]="withdrawalModal" account-id="1"></app-withdrawal-modal>
+<app-deposit-modal [(show)]="depositModal" [account-id]="getAccountIdAsString()"></app-deposit-modal>
+<app-withdrawal-modal [(show)]="withdrawalModal" [account-id]="getAccountIdAsString()"></app-withdrawal-modal>
 
 
 
