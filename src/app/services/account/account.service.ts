@@ -3,14 +3,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AuthService} from "../auth/auth.service";
 import {environment} from "../../../environments/environments";
+import {AccountResponse} from "../../models/account/response/account.response.interface";
+import {AccountRequest} from "../../models/account/request/acount.request.interface";
 
-interface Account {
-  id?: number;
-  type: string;
-  customerId: number;
-  balance: number;
-  accountNumber: number;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +16,14 @@ export class AccountService {
   constructor(private http: HttpClient, private authServices: AuthService) {
   }
 
-  getAccounts(customerId: number | null,): Observable<Account[]> {
-    return this.http.get<Account[]>(`${this.apiUrl}/customers/${customerId}/accounts`);
+  getAccounts(customerId: number | null,): Observable<AccountResponse[]> {
+    return this.http.get<AccountResponse[]>(`${this.apiUrl}/customers/${customerId}/accounts`);
   }
 
-  createAccount(account: Account): Observable<Account> {
+  createAccount(account: AccountRequest): Observable<AccountResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this.http.post<Account>(`${this.apiUrl}/accounts`, account);
+    return this.http.post<AccountResponse>(`${this.apiUrl}/accounts`, account);
   }
 }

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Inject, Output, ViewEncapsulation} from '@angular/core';
-import {AccountService} from "../../../../../services/account/account.service";
+import {AccountService} from "../../../../services/account/account.service";
 
 interface Account {
   type: string;
