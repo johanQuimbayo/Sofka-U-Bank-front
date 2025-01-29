@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { catchError, EMPTY, Observable, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class GlobalExceptionInterceptor implements HttpInterceptor {
 
   private handleJsonError(errorBody: any): string {
     if (typeof errorBody === 'object' && errorBody.message) {
-      return errorBody.message; // Devuelve el mensaje del campo "message"
+      return errorBody.message; 
     }
 
     return 'Ocurrió un error en el servidor.';
