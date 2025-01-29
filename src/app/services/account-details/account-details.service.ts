@@ -12,7 +12,7 @@ export class AccountDetailsService {
   private baseUrl: string = environment.baseUrl;
   private baseReactiveUrl: string = environment.baseReactiveUrl;
 
-  private transactionsListSubject = new BehaviorSubject<any>(null);
+  private transactionsListSubject = new BehaviorSubject<Transaction[]>([]);
 
   constructor(private http: HttpClient) { }
 
@@ -20,28 +20,37 @@ export class AccountDetailsService {
     return this.http.get<any>(`${ this.baseUrl }/accounts/${ id }`);
   }
 
-  streamTransactionsList(): Observable<any> {
-    return new Observable((observer) => {
-      const eventSource = new EventSource(`${ this.baseReactiveUrl }/api/transactions/stream`);
+  streamTransactionsList(idAccount: number): Observable<any> {
+    const eventSource = new EventSource(`${this.baseReactiveUrl}/api/transactions/stream/${idAccount}`);
 
-      eventSource.onmessage = (event) => {
-        try {
-          const data: Transaction = JSON.parse(event.data);
-          observer.next(data);
-        } catch (error) {
-          observer.error('Error al parsear los datos SSE');
-        }
-      };
+    eventSource.onmessage = (event) => {
+      try {
+        const data: Transaction = JSON.parse(event.data);
 
-      eventSource.onerror = (error) => {
-        observer.error(error);
-        eventSource.close(); 
-      };
+        // Emitir los datos recibidos a través de transactionsListSubject
+        const currentTransactions = this.transactionsListSubject.value;
+        this.transactionsListSubject.next([...currentTransactions, data]); // Agregar la nueva transacción al array
 
+      } catch (error) {
+        console.error('Error al parsear los datos SSE', error);
+      }
+    };
+
+    eventSource.onerror = (error) => {
+      console.error('Error en el EventSource:', error);
+      eventSource.close();
+    };
+
+    return new Observable<void>((observer) => {
       return () => {
         eventSource.close();
+        observer.complete();
       };
     });
+  }
+
+  getTransactions(): Observable<Transaction[]> {
+    return this.transactionsListSubject.asObservable();
   }
 
 }
