@@ -14,14 +14,46 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  auth(authrequest: AuthRequest) : Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(this.apiUrl + "/auth/login", authrequest).pipe(
+  auth(authRequest: AuthRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, authRequest).pipe(
       tap((response: AuthResponse) => {
         console.log(response);
         if (response.token) {
           localStorage.setItem("token", response.token);
+
+          // Decodificar y mostrar el payload del token
+          const payload = this.decodeToken(response.token);
+          console.log("Payload del token:", payload);
         }
       })
     );
   }
+
+  getUserId(): number | null {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+
+    try {
+      const payload = this.decodeToken(token);
+      return payload.userId || null;
+    } catch (error) {
+      console.error("Error al decodificar el token:", error);
+      return null;
+    }
+  }
+
+  private decodeToken(token: string): any {
+    try {
+      const payloadBase64 = token.split('.')[1];
+      return JSON.parse(atob(payloadBase64));
+    } catch (error) {
+      console.error("Error al decodificar el token:", error);
+      return null;
+    }
+  }
+
+  logout(): void {
+    localStorage.removeItem("token"); // Elimina el token
+  }
+
 }
