@@ -1,68 +1,73 @@
-<div class="container">
-  <div class="account-info card">
-    <div class="header">
-      <div>
-        <h1>Número de Cuenta</h1>
-      </div>
-    </div>
-    <div class="info">
-      <span>16516515131</span>
-    </div>
+<header class="main-header">
+  <h1>Información de la Cuenta</h1>
+</header>
+
+<section class="cards">
+  <div class="card">
+    <h3>Numero de cuenta</h3>
+    <p>{{account.accountNumber}}</p>
   </div>
-  <div class="account-type card">
-    <div class="header">
-      <div>
-        <h1>Tipo de Cuenta</h1>
-      </div>
-    </div>
-    <div class="info">
-      <span>SAVINGS</span>
-    </div>
+  <div class="card">
+    <h3>Identificación</h3>
+    <p>{{account.type}}</p>
   </div>
-  <div class="balance card">
-    <div class="header">
-      <div>
-        <h1>Saldo</h1>
-      </div>
-    </div>
-    <div class="info">
-      <span>$ 2.500,00</span>
-    </div>
+  <div class="card">
+    <h3>Cuentas activas</h3>
+    <p>{{account.balance}}</p>
   </div>
-  <div class="transaction-list card">
+</section>
+
+<section class="overview">
+  <div *ngIf="transactions.length > 0; else emptyState">
     <div class="header">
       <div>
-        <h1>Lista de Transacciones</h1>
+        <h1>Historial de Trasacciones</h1>
       </div>
     </div>
     <div class="table-container">
       <table>
         <thead>
-          <tr>
-            <th>Tipo de transacción</th>
-            <th>Fecha y Hora</th>
-            <th>Saldo Inicial - Saldo Final</th>
-            <th>Monto</th>
-          </tr>
+        <tr>
+          <th>Tipo de transacción</th>
+          <th>Fecha y Hora</th>
+          <th>Saldo Inicial - Saldo Final</th>
+          <th>Monto</th>
+        </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let transaction of transactions" [ngStyle]="getRowStyle(transaction)">
-            <td>{{ transaction.transactionType }}</td>
-            <td>{{ transaction.timestamp | timestampFormat }}</td>
-            <td>{{ transaction.initialBalance | currency }} - {{ transaction.finalBalance | currency }}</td>
-            <td [ngStyle]="{ color: transaction.transactionType === 'DEPOSIT' ? '#22c55e' : '#ef4444' }">
-              {{ transaction.amount | currency }}
-            </td>
-          </tr>
+        <tr *ngFor="let transaction of transactions" [ngStyle]="getRowStyle(transaction)">
+          <td>{{ transaction.transactionType }}</td>
+          <td>{{ transaction.timestamp | timestampFormat }}</td>
+          <td>{{ transaction.initialBalance | currency }} - {{ transaction.finalBalance | currency }}</td>
+          <td [ngStyle]="{ color: transaction.transactionType === 'DEPOSIT' ? '#22c55e' : '#ef4444' }">
+            {{ transaction.amount | currency }}
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <ng-template #emptyState>
+    <p>No hay transacciones hasta la fecha.</p>
+  </ng-template>
+</section>
+
+<div class="floating-buttons">
+  <button class="floating-btn deposit-btn" (click)="onDeposit()">
+    <span>
+      Deposito
+    </span>
+  </button>
+  <button class="floating-btn deposit-btn" (click)="onWithdraw()">
+    <span>
+    Retiro
+    </span>
+  </button>
 </div>
+
 <app-deposit-modal [(show)]="depositModal" account-id="1"></app-deposit-modal>
 <app-withdrawal-modal [(show)]="withdrawalModal" account-id="1"></app-withdrawal-modal>
 
-<div class="floating-buttons">
-  <button class="floating-btn deposit-btn" (click)="onDeposit()">Depósito</button>
-  <button class="floating-btn withdraw-btn" (click)="onWithdraw()">Retiro</button>
-</div>
+
+
+

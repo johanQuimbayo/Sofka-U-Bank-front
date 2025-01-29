@@ -86,7 +86,7 @@ select:focus, input:focus {
 }
 
 .modal-buttons button:last-child {
-  background-color: #007bff;
+  background-color: #FF7E08;
   color: white;
 }
 
@@ -95,7 +95,7 @@ select:focus, input:focus {
 }
 
 .modal-buttons button:last-child:hover {
-  background-color: #0056b3;
+  background-color: #6e6c6c;
 }
 
 /* Contenedor principal */
