@@ -26,9 +26,6 @@ export class AccountService {
   }
 
   createAccount(account: Account): Observable<Account> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
     return this.http.post<Account>(`${this.apiUrl}/accounts`, account);
   }
 }
