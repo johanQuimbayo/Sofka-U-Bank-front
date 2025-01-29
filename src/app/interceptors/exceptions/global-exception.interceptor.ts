@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { catchError, EMPTY, Observable } from 'rxjs';
+import { catchError, EMPTY, Observable, throwError } from 'rxjs';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 
 @Injectable()
@@ -34,7 +34,7 @@ export class GlobalExceptionInterceptor implements HttpInterceptor {
           message
         });
 
-        return EMPTY;
+        return throwError(() => error);
       })
     );
   }
