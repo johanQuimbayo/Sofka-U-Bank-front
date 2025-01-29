@@ -1,1 +1,31 @@
-<p>login works!</p>
+<div class="form-container">
+  <div class="image-section">
+    <img src="./assets/images/sofkalogo.png " alt="Ruinas del Sapo" class="main-image">
+  </div>
+  <div class="form-wrapper">
+    <div class="login-form">
+      <div class="login-form-header">
+      <h1>Sofka U Bank App</h1>
+      </div>
+      <form id="login-form" [formGroup]="loginForm" (ngSubmit)="auth()">
+        <div class="form-group">
+          <label for="email">Correo Electrónico</label>
+          <input type="email" formControlName="email" id="email" placeholder="Ingresa tu correo">
+        </div>
+        <div class="form-group">
+          <label for="pass">Contraseña</label>
+          <input type="password" formControlName="pass" id="pass" placeholder="Ingresa tu contraseña">
+          <small class="error-message" id="email-error"></small>
+        </div>
+
+        <div class="container">
+          <button id="button-login" type="submit">Iniciar Sesión</button>
+        </div>
+      </form>
+      <p>¿No tienes una cuenta? <a [routerLink]="'/auth/register'">Regístrate aquí</a></p>
+      <div class="footer">
+        Copyright © SofkaU
+      </div>
+    </div>
+  </div>
+</div>

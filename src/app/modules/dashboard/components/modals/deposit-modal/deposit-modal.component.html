@@ -1,0 +1,30 @@
+<ng-container *ngIf="show">
+    <div class="modal-background" (click)="close(form)">
+    </div>
+    <article class="modal">
+        <header class="modal-header">
+            <h2 class="modal-header-title">Deposito</h2>
+            <p class="modal-header-subtitle">Realiza aquí tus depositos</p>
+        </header>
+        <form #form="ngForm" class="modal-form" (ngSubmit)="send(form)">
+            <div class="input-container">
+                <label class="modal-form-label" for="deposit-amount-input">Monto a depositar</label>
+                <input 
+                    class="modal-form-input" 
+                    placeholder="40000" 
+                    type="number" 
+                    name="amount" 
+                    [(ngModel)]="request.amount" 
+                    #amount="ngModel" 
+                    id="deposit-amount-input" 
+                    required
+                >
+                <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="modal-form-errors">
+                    <p *ngIf="amount.errors?.['required']" class="modal-form-error-message">El campo es requerido y debe ser un valor válido.</p>
+                </div>
+            </div>
+            <button class="modal-form-button" type="submit" [disabled]="form.invalid">Confirmar</button>
+        </form>
+        <button class="modal-close-button" type="button" (click)="close(form)"></button>
+    </article>
+</ng-container>

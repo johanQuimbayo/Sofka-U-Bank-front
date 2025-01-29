@@ -59,7 +59,8 @@
     </div>
   </div>
 </div>
-
+<app-deposit-modal [(show)]="depositModal" account-id="1"></app-deposit-modal>
+<app-withdrawal-modal [(show)]="withdrawalModal" account-id="1"></app-withdrawal-modal>
 
 <div class="floating-buttons">
   <button class="floating-btn deposit-btn" (click)="onDeposit()">Depósito</button>

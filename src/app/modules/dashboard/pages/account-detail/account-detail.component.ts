@@ -9,6 +9,8 @@ import { AccountDetailsService } from 'src/app/services/account-details/account-
   styleUrls: ['./account-detail.component.css']
 })
 export class AccountDetailComponent implements OnInit {
+  depositModal = false;
+  withdrawalModal = false;
 
   // transactions: Transaction[] = [];
   private subscription!: Subscription;
@@ -114,11 +116,11 @@ export class AccountDetailComponent implements OnInit {
   }
 
   onDeposit() {
-    console.log('Depósito realizado');
+    this.depositModal = true;
   }
 
   onWithdraw() {
-    console.log('Retiro realizado');
+    this.withdrawalModal = true;
   }
 
 
