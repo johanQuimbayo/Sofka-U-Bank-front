@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotificationComponent } from './modules/dashboard/components/notifications/notification.component';
 import { GlobalExceptionInterceptor } from './interceptors/exceptions/global-exception.interceptor';
+import {AuthTokenInterceptor} from "./interceptors/authToken/auth-token.interceptor";
 
 @NgModule({
   declarations: [
@@ -21,8 +22,9 @@ import { GlobalExceptionInterceptor } from './interceptors/exceptions/global-exc
     {
       provide: HTTP_INTERCEPTORS,
       useClass: GlobalExceptionInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
