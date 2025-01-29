@@ -13,7 +13,7 @@
   </div>
   <div class="card">
     <h3>Saldo</h3>
-    <p>{{account.balance}}</p>
+    <p>{{finalBalance | currency }}</p>
   </div>
 </section>
 
@@ -65,8 +65,8 @@
   </button>
 </div>
 
-<app-deposit-modal [(show)]="depositModal" account-id="1"></app-deposit-modal>
-<app-withdrawal-modal [(show)]="withdrawalModal" account-id="1"></app-withdrawal-modal>
+<app-deposit-modal [(show)]="depositModal" account-id="{{accountId}}"></app-deposit-modal>
+<app-withdrawal-modal [(show)]="withdrawalModal" account-id="{{accountId}}"></app-withdrawal-modal>
 
 
 

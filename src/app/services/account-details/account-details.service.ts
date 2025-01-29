@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Transaction} from 'src/app/models/transaction';
 import {environment} from 'src/environments/environments';
+import {AuthService} from "../auth/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,39 +15,48 @@ export class AccountDetailsService {
 
   private transactionsListSubject = new BehaviorSubject<Transaction[]>([]);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
   }
 
   getAccountById(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/accounts/${id}`);
   }
 
-  streamTransactionsList(idAccount: number): void {
+  streamTransactionsList(idAccount: number): Observable<any> {
+    const token = this.authService.getToken();
+    const eventSource = new EventSource(`${this.baseReactiveUrl}/transactions/stream?accountId=${idAccount}&token=${ token }`);
 
-    this.http.get(`${this.baseReactiveUrl}/transactions/stream?accountId=${idAccount}`, {
-      responseType: 'text'
-    }).subscribe({
-      next: (response: string) => {
-        if (typeof response === 'string') {
-          const lines = response.split('\n').filter(line => line.startsWith('data: '));
-          lines.forEach(line => {
-            try {
-              const data: Transaction = JSON.parse(line.replace('data: ', ''));
+    eventSource.onmessage = (event) => {
+      try {
+        const data: Transaction = JSON.parse(event.data);
 
-              const currentTransactions = this.transactionsListSubject.value;
-              this.transactionsListSubject.next([...currentTransactions, data]);
+        const currentTransactions = this.transactionsListSubject.value;
+        const exists = currentTransactions.some(tx => tx.id === data.id);
 
-            } catch (error) {
-              console.error('Error al parsear los datos SSE:', error);
-            }
-          });
-        } else {
-          console.error('La respuesta del SSE no es un string:', response);
+        if (!exists) {
+          this.transactionsListSubject.next([...currentTransactions, data]);
         }
-      },
-      error: (err) => console.error('Error en SSE:', err),
-      complete: () => console.log('Conexión SSE cerrada')
+
+      } catch (error) {
+        console.error('Error al parsear los datos SSE', error);
+      }
+    };
+
+    eventSource.onerror = (error) => {
+      console.error('Error en el EventSource:', error);
+      eventSource.close();
+    };
+
+    return new Observable<void>((observer) => {
+      return () => {
+        eventSource.close();
+        observer.complete();
+      };
     });
+  }
+
+  clearTransactions(): void {
+    this.transactionsListSubject.next([]);
   }
 
   getTransactions(): Observable<Transaction[]> {
