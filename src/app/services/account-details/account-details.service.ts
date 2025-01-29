@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Transaction } from 'src/app/models/transaction';
 import { environment } from 'src/environments/environments';
 
 @Injectable({
@@ -19,16 +20,28 @@ export class AccountDetailsService {
     return this.http.get<any>(`${ this.baseUrl }/accounts/${ id }`);
   }
 
+  streamTransactionsList(): Observable<any> {
+    return new Observable((observer) => {
+      const eventSource = new EventSource(`${ this.baseReactiveUrl }/api/transactions/stream`);
 
-  getTransactionsReactiveList(id: number): void {
-    const eventSource = new EventSource(`${ this.baseReactiveUrl }/accounts/${ id }`);
+      eventSource.onmessage = (event) => {
+        try {
+          const data: Transaction = JSON.parse(event.data);
+          observer.next(data);
+        } catch (error) {
+          observer.error('Error al parsear los datos SSE');
+        }
+      };
 
-    eventSource.onmessage = (event) => {
-      this.transactionsListSubject.next(event.data);
-    };
+      eventSource.onerror = (error) => {
+        observer.error(error);
+        eventSource.close(); 
+      };
 
-    eventSource.onerror = (error) => {
-      eventSource.close();
-    };
+      return () => {
+        eventSource.close();
+      };
+    });
   }
+
 }
