@@ -28,4 +28,32 @@ export class AuthService {
       finalize(() => this.spinnerService.hide())
     );
   }
+
+  getUserId(): number | null {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+
+    try {
+      const payload = this.decodeToken(token);
+      return payload.userId || null;
+    } catch (error) {
+      console.error("Error al decodificar el token:", error);
+      return null;
+    }
+  }
+
+  private decodeToken(token: string): any {
+    try {
+      const payloadBase64 = token.split('.')[1];
+      return JSON.parse(atob(payloadBase64));
+    } catch (error) {
+      console.error("Error al decodificar el token:", error);
+      return null;
+    }
+  }
+
+  logout(): void {
+    localStorage.removeItem("token"); // Elimina el token
+  }
+
 }

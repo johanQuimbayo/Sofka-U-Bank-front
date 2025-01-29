@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environments';
   providedIn: 'root'
 })
 export class TransactionService {
-  private token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlzcyI6ImphdmFTUyIsImV4cCI6MTczOTM5OTI0MywiaWF0IjoxNzM4MTAzMjQzfQ.1JsTw4mpwGJGlnoYouQeK6I1REuFBFNpcG2AFN4iSTs"
+  private token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlzcyI6ImphdmFTUyIsImV4cCI6MTczOTQyMTM4NiwiaWF0IjoxNzM4MTI1Mzg2fQ.jDjnahasRZD2FpmEUdYPPX14mhY6ZkOmpOEMB7b8PTQ"
 
   // TODO: Implementar servicio de sesiones / local storage para obtener token
   constructor(private httpClient: HttpClient) {}

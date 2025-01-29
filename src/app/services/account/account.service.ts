@@ -18,7 +18,7 @@ export class AccountService {
   private token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlzcyI6ImphdmFTUyIsImV4cCI6MTczOTM5NDc0MiwiaWF0IjoxNzM4MDk4NzQyfQ.ukFukvB5DKgEqehBoZHgQpkMbDA-PgJtukmet-eaZRo'
   constructor(private http: HttpClient) { }
 
-  getAccounts(customerId: number,): Observable<Account[]> {
+    getAccounts(customerId: number | null,): Observable<Account[]> {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.token}` });
     return this.http.get<Account[]>(`${this.apiUrl}/customers/${customerId}/accounts`, { headers });
   }
