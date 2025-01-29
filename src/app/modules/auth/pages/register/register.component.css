@@ -1,0 +1,175 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #d9e4f5, #f9f9f9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.form-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background: #fff;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.image-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #FF7E08;
+}
+
+.image-section img {
+  width: 80%;
+}
+
+.form-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.register-form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.register-form-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-form h1 {
+  font-size: 24px;
+  color: #000;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #e2e2e2;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: box-shadow 0.3s;
+}
+
+.form-group input:focus {
+  box-shadow: 0 0 5px rgba(255 126 8);
+  outline: none;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  width: 60%;
+  padding: 12px;
+  background: #FF7E08;
+  color: #fdfbfb;
+  font-size: 16px;
+  font-weight: 750;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #c66105;
+}
+
+p {
+  margin-top: 15px;
+  font-size: 14px;
+  text-align: center;
+  color: #666;
+}
+
+p a {
+  color: #db6902;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+.g-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.google-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.google-button:hover {
+  background: #f9f9f9;
+}
+
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 40px;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875em;
+  margin-top: 0.25em;
+  display: block;
+}
+
+@media (max-width: 1000px) {
+  .image-section{
+    display: none;
+  }
+}
