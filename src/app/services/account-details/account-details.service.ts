@@ -14,6 +14,7 @@ export class AccountDetailsService {
   private baseReactiveUrl: string = environment.baseReactiveUrl;
 
   private transactionsListSubject = new BehaviorSubject<Transaction[]>([]);
+  private eventSource?: EventSource;
 
   constructor(private http: HttpClient, private authService: AuthService) {
   }
@@ -22,11 +23,13 @@ export class AccountDetailsService {
     return this.http.get<any>(`${this.baseUrl}/accounts/${id}`);
   }
 
-  streamTransactionsList(idAccount: number): Observable<any> {
-    const token = this.authService.getToken();
-    const eventSource = new EventSource(`${this.baseReactiveUrl}/transactions/stream?accountId=${idAccount}&token=${ token }`);
+  streamTransactionsList(idAccount: number): void  {
+    this.closeEventSource();
 
-    eventSource.onmessage = (event) => {
+    const token = this.authService.getToken();
+    this.eventSource = new EventSource(`${this.baseReactiveUrl}/transactions/stream?accountId=${idAccount}&token=${ token }`);
+
+    this.eventSource.onmessage = (event) => {
       try {
         const data: Transaction = JSON.parse(event.data);
 
@@ -42,21 +45,22 @@ export class AccountDetailsService {
       }
     };
 
-    eventSource.onerror = (error) => {
-      console.error('Error en el EventSource:', error);
-      eventSource.close();
+    this.eventSource.onerror = (error) => {
+      this.closeEventSource();
     };
-
-    return new Observable<void>((observer) => {
-      return () => {
-        eventSource.close();
-        observer.complete();
-      };
-    });
   }
+
+  closeEventSource(): void {
+    if (this.eventSource) {
+      this.eventSource.close();
+      this.eventSource = undefined;
+    }
+  }
+
 
   clearTransactions(): void {
     this.transactionsListSubject.next([]);
+    this.closeEventSource();
   }
 
   getTransactions(): Observable<Transaction[]> {
