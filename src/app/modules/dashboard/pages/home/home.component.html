@@ -1,4 +1,93 @@
-<div class="container">
+<div class="dashboard-container">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="image-section">
+        <img src="./assets/images/sofkalogoblack.png " alt="Ruinas del Sapo" class="main-image">
+      </div>
+    </div>
+    <nav class="nav-menu">
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Perfil</a></li>
+        <li><a href="#">Ajustes</a></li>
+        <li><a (click)="logOut()" href="#">Cerrar Sesión</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="main-header">
+      <h1>Bienvenido Sofka U Bank</h1>
+    </header>
+
+    <section class="cards">
+      <div class="card">
+        <h3>usuario</h3>
+        <p>Sebastian Quimbayo</p>
+      </div>
+      <div class="card">
+        <h3>Identificación</h3>
+        <p>{{getUserId()}}</p>
+      </div>
+      <div class="card">
+        <h3>Cuentas activas</h3>
+        <p>{{accounts.length}}</p>
+      </div>
+    </section>
+
+    <section class="overview">
+      <div *ngIf="accounts.length > 0; else emptyState">
+        <div class="header">
+          <div>
+            <h1>Lista de cuentas</h1>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+            <tr>
+              <th>Número cuenta</th>
+              <th>Saldo</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let account of accounts">
+              <td>{{account.accountNumber}}</td>
+              <td>$ {{ account.balance | number:'1.2-2' }}</td>
+              <td>
+                <a [routerLink]="['/home/account-details', account.id]" title="Ver detalles">
+                  <img src="assets/icons/eye.svg" alt="Ver" class="eye-icon">
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <ng-template #emptyState>
+        <p>No hay cuentas disponibles.</p>
+      </ng-template>
+    </section>
+
+    <div class="floating-buttons">
+      <button class="floating-btn deposit-btn" (click)="openCreateAccountModal()">Crear Nueva Cuenta</button>
+    </div>
+
+    <app-create-account
+      *ngIf="showCreateAccountModal"
+      (closeModal)="closeCreateAccountModal()"
+      (accountCreated)="loadAccounts()">
+    </app-create-account>
+  </main>
+</div>
+
+
+
+
+
+
+ <!--<div class="container">
   <div class="header">
     <h1>name user</h1>
     <button class="logout-button" (click)="logOut()">button logout</button>
@@ -51,3 +140,4 @@
     (accountCreated)="loadAccounts()">
   </app-create-account>
 </div>
+-->

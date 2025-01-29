@@ -19,7 +19,6 @@ interface Account {
 })
 export class HomeComponent implements OnInit {
   accounts: Account[] = [];
-  customerId: number = 1;
   showCreateAccountModal: boolean = false;
 
   constructor(private accountsService: AccountService,
