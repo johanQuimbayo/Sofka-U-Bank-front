@@ -1,6 +1,6 @@
-export interface Account {
+export interface AccountResponse {
   id: number;
-  type: 'SAVINGS' | 'CHECKING';
+  type: string;
   customerId: number;
   balance: number;
   accountNumber: number;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Account } from 'src/app/models/account';
+import { AccountResponse } from 'src/app/models/account/response/account.response.interface';
 import { Transaction } from 'src/app/models/transaction';
 import { AccountDetailsService } from 'src/app/services/account-details/account-details.service';
 
@@ -15,7 +15,7 @@ export class AccountDetailComponent implements OnInit {
   withdrawalModal = false;
 
   accountId!: number;
-  account: Account = {} as Account;
+  account: AccountResponse = {} as AccountResponse;
   transactions: Transaction[] = [];
   private subscription!: Subscription;
 
@@ -27,7 +27,7 @@ export class AccountDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountId = Number(this.route.snapshot.paramMap.get('id'));
-    
+
     if(this.accountId) {
       this.getAccountById(this.accountId);
 

@@ -1,77 +1,47 @@
-
-.container {
-  height: 100vh;
-  background-color: #f4f4f4;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 200px 1fr;
+.main-content {
+  width: 80%;
+  flex-grow: 1;
   padding: 20px;
+  background-color: #fff;
+}
+
+.main-header {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.cards {
+  display: flex;
   gap: 20px;
-  font-family: sans-serif;
+  margin-top: 20px;
 }
 
 .card {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  flex: 1;
+  text-align: center;
 }
 
-.account-info {
-  grid-row: 1/2;
-  grid-column: 1/2;
+.card h3 {
+  margin: 0;
 }
 
-.info {
-  display: flex;
-  justify-content: end;
-
-  span {
-    font-size: 40px;
-  }
+.overview {
+  margin-top: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
-.account-type {
-  grid-row: 1/2;
-  grid-column: 2/3;
-}
-
-.balance {
-  grid-row: 1/2;
-  grid-column: 3/4;
-}
-
-.transaction-list {
-  grid-row: 2/3;
-  grid-column: 1/4;
-  justify-content: start;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.header h3 {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #1f2937;
-  margin-bottom: 4px;
-}
-
-.header span {
-  font-size: 1rem;
-  color: #6b7280;
-}
-
 
 .table-container {
+  width: 100%;
+  margin-top: 1%;
   overflow-x: auto;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -86,18 +56,21 @@ table {
 }
 
 thead {
-  background-color: #c0c7cd;
+  background-color: #FF7E08;
 }
 
 th, td {
   text-align: center;
-  padding: 12px;
+  padding: 1%;
   word-wrap: break-word;
 }
 
 th {
   font-size: 0.75rem;
   text-transform: uppercase;
+}
+th, p{
+  margin-top: 5%;
 }
 
 tbody tr:nth-child(even) {
@@ -108,39 +81,39 @@ tbody tr {
   border-top: 1px solid #e5e7eb;
 }
 
+
+.eye-icon {
+  width: 10%;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.eye-icon:hover {
+  transform: scale(1.5);
+}
+
+.floating-btn {
+  width: 100%;
+  margin: 2%;
+  padding: 12px;
+  background: #FF7E08;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 750;
+  border: none;
+  border-radius: 2%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.floating-btn:hover {
+  background: #6e6c6c;
+}
+
 .floating-buttons {
   position: fixed;
   bottom: 50px;
   right: 50px;
-  display: flex;
-  flex-direction: column;
   gap: 10px;
   z-index: 1000;
 }
-
-.floating-btn {
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.floating-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-}
-
-.deposit-btn {
-  background-color: #22c55e;
-}
-
-.withdraw-btn {
-  background-color: #ef4444;
-}
-
