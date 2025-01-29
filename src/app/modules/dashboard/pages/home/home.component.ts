@@ -7,6 +7,7 @@ interface Account {
   type: string;
   customerId: number;
   balance: number;
+  accountNumber: number;
 }
 
 @Component({

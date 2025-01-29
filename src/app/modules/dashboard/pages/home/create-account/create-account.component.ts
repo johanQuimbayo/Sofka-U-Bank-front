@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Output, ViewEncapsulation} from '@angular/core';
 import {AccountService} from "../../../../../services/account/account.service";
 
 interface Account {
@@ -9,7 +9,8 @@ interface Account {
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
-  styleUrls: ['./create-account.component.css']
+  styleUrls: ['./create-account.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CreateAccountComponent {
   accountType: string = 'CHECKING';

@@ -8,14 +8,22 @@
     <table>
       <thead>
       <tr>
+        <th>Id Cuenta</th>
         <th>Número cuenta</th>
         <th>Saldo</th>
+        <th>Action</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let account of accounts">
         <td>{{ account.id }}</td>
+        <td>{{account.accountNumber}}</td>
         <td>$ {{ account.balance | number:'1.2-2' }}</td>
+        <td>
+          <a [routerLink]="['/home/account-details', account.id]" title="Ver detalles">
+            <img src="assets/icons/eye.svg" alt="Ver" class="eye-icon">
+          </a>
+        </td>
       </tr>
       </tbody>
     </table>
