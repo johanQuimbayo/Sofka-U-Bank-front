@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { NotificationComponent } from './modules/dashboard/components/notifications/notification.component';
 import { GlobalExceptionInterceptor } from './interceptors/exceptions/global-exception.interceptor';
 import {SpinnerComponent} from "./utils/load-spinner/component/spinner/spinner.component";
+import {AuthTokenInterceptor} from "./interceptors/authToken/auth-token.interceptor";
 
 @NgModule({
   declarations: [
@@ -23,8 +24,9 @@ import {SpinnerComponent} from "./utils/load-spinner/component/spinner/spinner.c
     {
       provide: HTTP_INTERCEPTORS,
       useClass: GlobalExceptionInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
