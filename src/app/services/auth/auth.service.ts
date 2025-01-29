@@ -20,6 +20,7 @@ export class AuthService {
         console.log(response);
         if (response.token) {
           localStorage.setItem("token", response.token);
+          localStorage.setItem("userName", response.userName);
         }
       })
     );
@@ -50,10 +51,15 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem("token");
+    localStorage.removeItem("userName");
   }
 
   getToken(): string | null {
     return localStorage.getItem("token");
+  }
+
+  getUserName(): string | null {
+    return localStorage.getItem("userName");
   }
 
 }

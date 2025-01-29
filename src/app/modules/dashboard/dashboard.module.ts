@@ -8,6 +8,8 @@ import {CreateAccountComponent} from "./pages/home/create-account/create-account
 import {FormsModule} from "@angular/forms";
 import {TimestampFormatPipe} from "../../utils/pipes/timestamp-format.pipe";
 import { ModalModule } from './components/modals/modals.module';
+import { CustomerDetailsComponent } from './pages/home/customer-details/customer-details.component';
+import { HeaderComponent } from './pages/home/header/header.component';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { ModalModule } from './components/modals/modals.module';
     HomeComponent,
     AccountDetailComponent,
     CreateAccountComponent,
-    TimestampFormatPipe
+    TimestampFormatPipe,
+    CustomerDetailsComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,

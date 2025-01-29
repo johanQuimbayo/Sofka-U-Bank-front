@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AccountService } from "../../../../services/account/account.service";
-import { CreateAccountComponent } from "./create-account/create-account.component";
-import {AuthService} from "../../../../services/auth/auth.service";
+import { Component } from '@angular/core';
+import {AccountService} from "../../../../../services/account/account.service";
+import {AuthService} from "../../../../../services/auth/auth.service";
 import {Router} from "@angular/router";
 
 interface Account {
@@ -13,11 +12,12 @@ interface Account {
 }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-customer-details',
+  templateUrl: './customer-details.component.html',
+  styleUrls: ['./customer-details.component.css']
 })
-export class HomeComponent implements OnInit {
+export class CustomerDetailsComponent {
+
   accounts: Account[] = [];
   showCreateAccountModal: boolean = false;
 
@@ -53,5 +53,8 @@ export class HomeComponent implements OnInit {
     this.showCreateAccountModal = false;
   }
 
-
+  logOut(): void{
+    this.authServices.logout();
+    this.router.navigate(['/login']).then(r => console.log('end session')); // Redirige a /login
+  }
 }

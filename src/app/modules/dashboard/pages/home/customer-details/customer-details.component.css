@@ -7,6 +7,7 @@
   grid-template-rows: 100px 1fr;
   padding: 20px;
   gap: 20px;
+  border: 1px solid #c0c7cd;
 }
 
 .transaction-list {
@@ -38,30 +39,17 @@
 
 .header h2 {
   margin: 0;
-  color: #333;
+  color: #FF7E08;
 }
 .header h3 {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #1f2937;
+  color: #FF7E08;
   margin-bottom: 4px;
 }
 .header span {
   font-size: 1rem;
-  color: #6b7280;
-}
-
-.logout-button {
-  padding: 8px 16px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.logout-button:hover {
-  background-color: #c82333;
+  color: #FF7E08;
 }
 
 .table-container {
@@ -79,7 +67,8 @@ table {
 }
 
 thead {
-  background-color: #c0c7cd;
+  background-color: #FF7E08;
+  color: #ffffff;
 }
 
 th, td {
@@ -114,16 +103,16 @@ tbody tr {
 }
 
 .floating-btn {
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
+  width: 100%;
+  padding: 12px;
+  background: #FF7E08;
+  color: #ffffff;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 750;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 .floating-btn:hover {
@@ -135,13 +124,7 @@ tbody tr {
   position: fixed;
   bottom: 50px;
   right: 50px;
-  display: flex;
-  flex-direction: column;
   gap: 10px;
   z-index: 1000;
-}
-
-.deposit-btn {
-  background-color: #22c55e;
 }
 
