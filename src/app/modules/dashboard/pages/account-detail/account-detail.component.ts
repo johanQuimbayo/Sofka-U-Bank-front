@@ -18,7 +18,6 @@ export class AccountDetailComponent implements OnInit, OnDestroy {
   account: AccountResponse = {} as AccountResponse;
   transactions: Transaction[] = [];
   private subscription!: Subscription;
-  private streamSubscription?: Observable<any>;
   protected finalBalance!: number | null;
 
   constructor(private accountDetailsService: AccountDetailsService,
@@ -33,10 +32,9 @@ export class AccountDetailComponent implements OnInit, OnDestroy {
     if(this.accountId) {
       this.getAccountById(this.accountId);
 
-      this.streamSubscription = this.accountDetailsService
-        .streamTransactionsList(this.accountId)
+      this.accountDetailsService.streamTransactionsList(this.accountId);
 
-      this.accountDetailsService.getTransactions().subscribe((transactions) => {
+      this.subscription = this.accountDetailsService.getTransactions().subscribe((transactions) => {
         this.transactions = transactions;
         this.finalBalance = transactions[transactions.length - 1].finalBalance;
       });
@@ -71,6 +69,7 @@ export class AccountDetailComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
     this.accountDetailsService.clearTransactions();
   }
 }
