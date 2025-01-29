@@ -82,6 +82,7 @@ export class AccountDetailComponent implements OnInit {
 
   }
 
+  // TODO: Falta agregar un servicio para obtener el id de la cuenta, también para componente de modales
   ngOnInit(): void {
     this.getAccountById(1);
   }
