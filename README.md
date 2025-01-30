@@ -232,6 +232,74 @@ const routes: Routes = [
   Este módulo permite una gestión reactiva y eficiente de las cuentas bancarias, asegurando una experiencia fluida para el usuario.
 
 ---
+
+### Transacciones
+
+Este módulo permite la gestión de operaciones de depósito y retiro en las cuentas bancarias.
+
+#### Características
+
+- Realización de depósitos y retiros en tiempo real
+- Validación de saldos y montos
+- Manejo de errores específicos para transacciones
+- Actualización automática del saldo después de cada transacción
+
+#### Componentes
+
+#### `deposit-modal.component.html` y `withdrawal-modal.component.html`
+
+Estos archivos definen la estructura de los modales:
+
+- Validación del monto ingresado
+- Comunicación con el servicio de transacciones
+- Emisión de eventos de éxito/error
+- Manejo de estados de carga y errores
+
+#### `transactions.service.ts`
+
+Maneja todas las operaciones relacionadas con transacciones:
+
+- `perform(transaction: TransactionRequest)`: Procesa cualquier tipo de transacción/movimiento
+- Validación de saldos suficientes
+- Manejo de errores de transacción
+
+#### Interfaces
+
+Para estructurar los datos de las peticiones de transacciones, se utilizan las siguientes interfaces/tipos:
+
+```typescript
+export type TransactionTypes = "DEPOSIT" | "WITHDRAWAL";
+
+export type TransactionRequest = {
+    accountId: string;
+    transactionType: TransactionTypes;
+    amount: number;
+    userId: string;
+    withdrawalType: "ATM"
+}
+
+export type TransactionResponse = {
+    transactionId: string;
+    accountId: string;
+    transactionType: TransactionTypes;
+    initialBalance: number;
+    amount: number;
+    finalBalance: number;
+    status: string;
+}
+```
+
+#### Dependencias
+
+Este módulo usa:
+
+- `HttpClient` para realizar peticiones HTTP
+- `FormsModule` y `Template-Driven Forms` para la validación de formularios
+- `NotificationService` para mostrar notificaciones de éxito/error
+- `SpinnerService` para la validación del estado de carga
+
+---
+
 ### Notificaciones
 
 Este módulo permite la creación de alertas de distintos tipos de forma global y reactiva.
