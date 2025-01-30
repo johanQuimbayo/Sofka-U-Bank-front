@@ -13,8 +13,8 @@ import { NotificationsService } from 'src/app/services/notifications/notificatio
   styleUrls: ['./account-detail.component.css']
 })
 export class AccountDetailComponent implements OnInit {
-  depositModal = false;
-  withdrawalModal = false;
+  depositModal: boolean = false;
+  withdrawalModal: boolean = false;
 
   accountId!: number;
 
@@ -22,7 +22,7 @@ export class AccountDetailComponent implements OnInit {
   transactions$!: Observable<Transaction[]>;
   finalBalance$!: Observable<number>;
 
-  empty = true;
+  empty: boolean = true;
 
   constructor(private accountDetailsService: AccountDetailsService,
               private notificationService: NotificationsService,
@@ -48,7 +48,7 @@ export class AccountDetailComponent implements OnInit {
       'background-color': isStriped ? '#ececed' : 'white',
     };
   }
-  
+
   getAccountById(accountId: number) {
     return this.accountDetailsService.getAccountById(accountId).pipe(
       shareReplay(1)
@@ -69,7 +69,7 @@ export class AccountDetailComponent implements OnInit {
 
   getLatestTransactionBalance() {
     return combineLatest([this.account$, this.transactions$]).pipe(
-      map(([account, transactions]) => transactions.length > 0 
+      map(([account, transactions]) => transactions.length > 0
         ? transactions[transactions.length - 1].finalBalance : account.balance)
     )
   }
