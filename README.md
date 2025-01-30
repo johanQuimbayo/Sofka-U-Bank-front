@@ -231,6 +231,66 @@ const routes: Routes = [
 
   Este módulo permite una gestión reactiva y eficiente de las cuentas bancarias, asegurando una experiencia fluida para el usuario.
 
+---
+### Notificaciones
+
+Este módulo permite la creación de alertas de distintos tipos de forma global y reactiva.
+
+#### Características
+
+- Creación de notificaciones en tiempo real
+- Uso de `Subject` para el manejo de comunicación reactiva entre componentes
+- Interceptors para el manejo global de excepciones a través de notificaciones
+
+#### Componentes
+
+#### `notification.component.html`
+
+Este archivo define la estructura del componente:
+
+- Muestra el mensaje respectivo al tipo de la notificación.
+
+#### `notification.component.ts`
+
+Este archivo contiene la lógica del componente:
+
+- Obtiene el `message` desde el servicio de notificaciones.
+- Define el tiempo de actividad de la notificación y se encarga de su eliminación automática.
+
+#### `notifications.service.ts`
+
+Se encarga de orquestar globalmente el `Subject` utilizado para la transmisión de notificaciones:
+
+- Recibe la estructura de la notificación
+- Transmite la información suministrada globalmente en forma de notificación 
+
+#### `global-exception.interceptor.ts`
+
+Se encarga de capturar las excepciones lanzadas por la instancia global del HttpClient y procesarlas de acuerdo a su contenido, generando una notificación a partir de este procesamiento.
+
+#### Interfaces
+
+Para estructurar los datos de las notificaciones, se utilizan las siguientes interfaces/tipos:
+
+```typescript
+type NotificationTypes = "success" | "error"
+
+type Notification = {
+    type: NotificationTypes;
+    message: string;
+}
+```
+
+#### Dependencias
+
+Este módulo usa:
+
+- `HttpClient` para realizar peticiones HTTP.
+- `Subject` de `rxjs` para la comunicación reactiva entre componentes.
+- `catchError` de `rxjs` para manejar la lógica de notificaciones y errores.
+- `HttpInterceptor` para interceptar y manejar errores globalmente.
+
+---
 
   ### Modal de Creación de Cuenta
   - Permite seleccionar el tipo de cuenta y definir el saldo inicial.
