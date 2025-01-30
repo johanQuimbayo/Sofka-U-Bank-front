@@ -1,9 +1,10 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import {Injectable, NgZone} from '@angular/core';
+import { EMPTY, Observable, scan, startWith, throwError } from 'rxjs';
 import {Transaction} from 'src/app/models/transaction';
 import {environment} from 'src/environments/environments';
 import {AuthService} from "../auth/auth.service";
+import fromEventSource from 'src/app/utils/operators/from-source.operator';
 
 @Injectable({
   providedIn: 'root'
@@ -13,58 +14,52 @@ export class AccountDetailsService {
   private baseUrl: string = environment.baseUrl;
   private baseReactiveUrl: string = environment.baseReactiveUrl;
 
-  private transactionsListSubject = new BehaviorSubject<Transaction[]>([]);
-  private eventSource?: EventSource;
-
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private zone: NgZone, private http: HttpClient, private authService: AuthService) {
   }
 
   getAccountById(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/accounts/${id}`);
   }
 
-  streamTransactionsList(idAccount: number): void  {
-    this.closeEventSource();
-
-    const token = this.authService.getToken();
-    this.eventSource = new EventSource(`${this.baseReactiveUrl}/transactions/stream?accountId=${idAccount}&token=${ token }`);
-
-    this.eventSource.onmessage = (event) => {
-      try {
-        const data: Transaction = JSON.parse(event.data);
-
-        const currentTransactions = this.transactionsListSubject.value;
-        const exists = currentTransactions.some(tx => tx.id === data.id);
-
-        if (!exists) {
-          this.transactionsListSubject.next([...currentTransactions, data]);
-        }
-
-      } catch (error) {
-        console.error('Error al parsear los datos SSE', error);
-      }
-    };
-
-    this.eventSource.onerror = (error) => {
-      this.closeEventSource();
-    };
+  getTransactions(accountId: number): Observable<Transaction[]> {
+    return this.getTransactionStreamByAccountId(accountId).pipe(
+      scan((transactions, transaction) => [...transactions, transaction], new Array),
+      startWith([])
+    )
   }
 
-  closeEventSource(): void {
-    if (this.eventSource) {
-      this.eventSource.close();
-      this.eventSource = undefined;
+  private getTransactionStreamByAccountId(accountId: number) {
+    const url = this.getStreamUrl(accountId);
+
+    if (!url)
+      return EMPTY;
+
+    try {
+      return fromEventSource(new EventSource(url), this.zone)
+    } catch (error) {
+      console.log(error)
+      return throwError(() => error);
     }
   }
 
+  private getStreamUrl(accountId: number) {
+    const token = this.authService.getToken();
+    const account = `${accountId}`;
 
-  clearTransactions(): void {
-    this.transactionsListSubject.next([]);
-    this.closeEventSource();
+    if (!token) return '';
+
+    const base = `${this.baseReactiveUrl}/transactions/stream`
+    const params = this.getAsParams({ accountId: account, token })
+
+    return `${base}?${params}`
   }
 
-  getTransactions(): Observable<Transaction[]> {
-    return this.transactionsListSubject.asObservable();
-  }
+  private getAsParams(params: {[key: string]: string}) {
+    const urlParams = new URLSearchParams();
 
+    Object.entries(params)
+      .forEach(([key, value]) => urlParams.append(key, value))
+
+    return urlParams.toString();
+  }
 }
