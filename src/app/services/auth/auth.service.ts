@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {AuthRequest} from "../../models/auth/request/auth.request.interface";
 import {AuthResponse} from "../../models/auth/response/auth.response.interface";
@@ -14,15 +14,18 @@ export class AuthService {
   apiUrl = environment.baseUrl;
 
   constructor(private http: HttpClient,
-              private spinnerService:SpinnerService) { }
+              private spinnerService: SpinnerService) {
+  }
 
-  auth(authrequest: AuthRequest) : Observable<AuthResponse> {
+  auth(authrequest: AuthRequest): Observable<AuthResponse> {
     this.spinnerService.show();
     return this.http.post<AuthResponse>(this.apiUrl + "/auth/login", authrequest).pipe(
       tap((response: AuthResponse) => {
         console.log(response);
         if (response.token) {
           localStorage.setItem("token", response.token);
+          localStorage.setItem("userName", response.userName);
+          localStorage.setItem("documentNumber", response.documentNumber);
         }
       }),
       finalize(() => this.spinnerService.hide())
@@ -54,10 +57,20 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("documentNumber");
+  }
+
+  getDocumentNumber(): string | null {
+    return localStorage.getItem("documentNumber");
   }
 
   getToken(): string | null {
     return localStorage.getItem("token");
+  }
+
+  getUserName(): string | null {
+    return localStorage.getItem("userName");
   }
 
 }

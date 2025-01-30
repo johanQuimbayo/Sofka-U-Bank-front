@@ -1,5 +1,8 @@
 import {Component, EventEmitter, Inject, Output, ViewEncapsulation} from '@angular/core';
 import {AccountService} from "../../../../services/account/account.service";
+import {AuthService} from "../../../../services/auth/auth.service";
+import { SpinnerService } from 'src/app/utils/load-spinner/service/spinner.service';
+import { delay } from 'rxjs';
 
 interface Account {
   type: string;
@@ -19,7 +22,7 @@ export class CreateAccountComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() accountCreated = new EventEmitter<void>();
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private authService : AuthService, private spinnerService: SpinnerService) {}
 
   close(): void {
     this.closeModal.emit();
@@ -28,19 +31,22 @@ export class CreateAccountComponent {
   createAccount(): void {
     const newAccount = {
       type: this.accountType,
-      customerId: 1, // Asumiendo que usas el mismo customerId del HomeComponent
+      customerId: this.authService.getUserId(),
       balance: this.balance
     };
 
+    this.spinnerService.show();
+
     // @ts-ignore
-    this.accountService.createAccount(newAccount).subscribe({
+    this.accountService.createAccount(newAccount).pipe(delay(1000)).subscribe({
       next: () => {
+        this.spinnerService.hide();
         this.accountCreated.emit();
         this.closeModal.emit();
       },
       error: (error) => {
+        this.spinnerService.hide();
         console.error('Error creating account:', error);
-        // Aquí podrías agregar manejo de errores
       }
     });
   }
