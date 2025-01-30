@@ -117,5 +117,5 @@ tbody tr {
   bottom: 50px;
   right: 50px;
   gap: 10px;
-  z-index: 1000;
+  z-index: 1;
 }

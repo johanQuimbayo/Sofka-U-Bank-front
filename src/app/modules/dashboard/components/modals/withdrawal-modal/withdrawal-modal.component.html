@@ -23,8 +23,10 @@
                     <p *ngIf="amount.errors?.['required']" class="modal-form-error-message">El campo es requerido y debe ser un valor válido.</p>
                 </div>
             </div>
-            <button class="modal-form-button" type="submit" [disabled]="form.invalid">Confirmar</button>
+            <div class="button-container">
+                <button class="modal-close-button" type="button" (click)="close(form)">Cancelar</button>
+                <button class="modal-form-button" type="submit" [disabled]="form.invalid">Confirmar</button>
+            </div>
         </form>
-        <button class="modal-close-button" type="button" (click)="close(form)"></button>
     </article>
 </ng-container>
