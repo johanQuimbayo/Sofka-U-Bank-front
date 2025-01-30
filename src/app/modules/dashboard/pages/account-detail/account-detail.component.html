@@ -5,48 +5,57 @@
 <section class="cards">
   <div class="card">
     <h3>Numero de cuenta</h3>
-    <p>{{account.accountNumber}}</p>
+    <ng-container *ngIf="(account$ | async) as account; else placeholderParagraph">
+      <p >{{ account.accountNumber }} </p>
+    </ng-container>
   </div>
   <div class="card">
     <h3>Tipo de cuenta</h3>
-    <p>{{account.type}}</p>
+    <ng-container *ngIf="(account$ | async) as account; else placeholderParagraph">
+      <p >{{ account.type }} </p>
+    </ng-container>
   </div>
   <div class="card">
     <h3>Saldo</h3>
-    <p>{{finalBalance | currency }}</p>
+    <p>{{finalBalance$ | async | currency }}</p>
   </div>
+  <ng-template #placeholderParagraph>
+    <p>No disponible</p>
+  </ng-template>
 </section>
 
 <section class="overview">
-  <div *ngIf="transactions && transactions.length > 0; else emptyState">
-  <div class="header">
-      <div>
-        <h1>Historial de Trasacciones</h1>
+  <ng-container *ngIf="(transactions$ | async) as transactions">
+    <div *ngIf="!empty; else emptyState">
+      <div class="header">
+        <div>
+          <h1>Historial de Trasacciones</h1>
+        </div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+          <tr>
+            <th>Tipo de transacción</th>
+            <th>Fecha y Hora</th>
+            <th>Saldo Inicial - Saldo Final</th>
+            <th>Monto</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let transaction of transactions$ | async; index as i" [ngStyle]="getRowStyle(i)">
+            <td>{{ transaction.transactionType }}</td>
+            <td>{{ transaction.timestamp | timestampFormat }}</td>
+            <td>{{ transaction.initialBalance | currency }} - {{ transaction.finalBalance | currency }}</td>
+            <td [ngStyle]="{ color: transaction.transactionType === 'DEPOSIT' ? '#22c55e' : '#ef4444' }">
+              {{ transaction.amount | currency }}
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="table-container">
-      <table>
-        <thead>
-        <tr>
-          <th>Tipo de transacción</th>
-          <th>Fecha y Hora</th>
-          <th>Saldo Inicial - Saldo Final</th>
-          <th>Monto</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let transaction of transactions" [ngStyle]="getRowStyle(transaction)">
-          <td>{{ transaction.transactionType }}</td>
-          <td>{{ transaction.timestamp | timestampFormat }}</td>
-          <td>{{ transaction.initialBalance | currency }} - {{ transaction.finalBalance | currency }}</td>
-          <td [ngStyle]="{ color: transaction.transactionType === 'DEPOSIT' ? '#22c55e' : '#ef4444' }">
-            {{ transaction.amount | currency }}
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  </ng-container>
   <ng-template #emptyState>
     <p>No hay transacciones hasta la fecha.</p>
   </ng-template>

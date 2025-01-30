@@ -1,27 +1,33 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import {Observable, Subscription} from 'rxjs';
+import {catchError, combineLatest, map, Observable, of, shareReplay, tap} from 'rxjs';
 import { AccountResponse } from 'src/app/models/account/response/account.response.interface';
 import { Transaction } from 'src/app/models/transaction';
 import { AccountDetailsService } from 'src/app/services/account-details/account-details.service';
+import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-account-detail',
   templateUrl: './account-detail.component.html',
   styleUrls: ['./account-detail.component.css']
 })
-export class AccountDetailComponent implements OnInit, OnDestroy {
+export class AccountDetailComponent implements OnInit {
   depositModal = false;
   withdrawalModal = false;
 
   accountId!: number;
-  account: AccountResponse = {} as AccountResponse;
-  transactions: Transaction[] = [];
-  private subscription!: Subscription;
-  protected finalBalance!: number | null;
+
+  account$!: Observable<AccountResponse>;
+  transactions$!: Observable<Transaction[]>;
+  finalBalance$!: Observable<number>;
+
+  empty = true;
 
   constructor(private accountDetailsService: AccountDetailsService,
-              private route: ActivatedRoute, private cdr: ChangeDetectorRef
+              private notificationService: NotificationsService,
+              private route: ActivatedRoute,
+              private destroy$: DestroyRef,
   ) {
 
   }
@@ -29,33 +35,50 @@ export class AccountDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.accountId = Number(this.route.snapshot.paramMap.get('id'));
 
-    if(this.accountId) {
-      this.getAccountById(this.accountId);
-      this.accountDetailsService.streamTransactionsList(this.accountId);
-      this.subscription = this.accountDetailsService.getTransactions().subscribe((transactions) => {
-        this.transactions = transactions;
-        this.finalBalance = transactions[transactions.length - 1].finalBalance;
-        this.cdr.detectChanges();
-      });
+    if (this.accountId) {
+      this.account$ = this.getAccountById(this.accountId);
+      this.transactions$ = this.getTransactionsByAccountId(this.accountId);
+      this.finalBalance$ = this.getLatestTransactionBalance();
     }
   }
 
-  getRowStyle(transaction: any): any {
-    const isStriped = this.transactions.indexOf(transaction) % 2 === 1;
+  getRowStyle(index: number): any {
+    const isStriped = index % 2 === 1;
     return {
       'background-color': isStriped ? '#ececed' : 'white',
     };
   }
+  
+  getAccountById(accountId: number) {
+    return this.accountDetailsService.getAccountById(accountId).pipe(
+      shareReplay(1)
+    );
+  }
 
-  getAccountById(idAccount: number) {
-    this.accountDetailsService.getAccountById(idAccount).subscribe({
-      next: (result: any) => {
-        this.account = result;
-      },
-      error: (err:any) => {
-        console.log( err )
-      }
-    })
+  getTransactionsByAccountId(accountId: number) {
+    return this.accountDetailsService.getTransactions(accountId).pipe(
+      takeUntilDestroyed(this.destroy$),
+      tap({
+        error: _ => this.notificationService.notify({ type: "error", message: "No se pudieron encontrar transacciones" }),
+        next: transactions => this.empty = transactions.length === 0,
+      }),
+      catchError(_ => of([])),
+      shareReplay(1),
+    );
+  }
+
+  getLatestTransactionBalance() {
+    return combineLatest([this.account$, this.transactions$]).pipe(
+      map(([account, transactions]) => transactions.length > 0 
+        ? transactions[transactions.length - 1].finalBalance : account.balance)
+    )
+  }
+
+  refreshTransactions() {
+    if (this.empty) {
+      this.transactions$ = this.getTransactionsByAccountId(this.accountId);
+      this.finalBalance$ = this.getLatestTransactionBalance();
+    }
   }
 
   onDeposit() {
@@ -64,21 +87,5 @@ export class AccountDetailComponent implements OnInit, OnDestroy {
 
   onWithdraw() {
     this.withdrawalModal = true;
-  }
-
-  refreshTransactions() {
-    if (this.accountId) {
-      this.subscription?.unsubscribe();
-      this.accountDetailsService.streamTransactionsList(this.accountId);
-      this.subscription = this.accountDetailsService.getTransactions().subscribe((transactions) => {
-        this.transactions = transactions;
-        this.finalBalance = transactions.length ? transactions[transactions.length - 1].finalBalance : null;
-      });
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-    this.accountDetailsService.clearTransactions();
   }
 }
