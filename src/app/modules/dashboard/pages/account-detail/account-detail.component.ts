@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import { AccountResponse } from 'src/app/models/account/response/account.response.interface';
@@ -21,7 +21,7 @@ export class AccountDetailComponent implements OnInit, OnDestroy {
   protected finalBalance!: number | null;
 
   constructor(private accountDetailsService: AccountDetailsService,
-              private route: ActivatedRoute
+              private route: ActivatedRoute, private cdr: ChangeDetectorRef
   ) {
 
   }
@@ -31,12 +31,11 @@ export class AccountDetailComponent implements OnInit, OnDestroy {
 
     if(this.accountId) {
       this.getAccountById(this.accountId);
-
       this.accountDetailsService.streamTransactionsList(this.accountId);
-
       this.subscription = this.accountDetailsService.getTransactions().subscribe((transactions) => {
         this.transactions = transactions;
         this.finalBalance = transactions[transactions.length - 1].finalBalance;
+        this.cdr.detectChanges();
       });
     }
   }
@@ -67,6 +66,16 @@ export class AccountDetailComponent implements OnInit, OnDestroy {
     this.withdrawalModal = true;
   }
 
+  refreshTransactions() {
+    if (this.accountId) {
+      this.subscription?.unsubscribe();
+      this.accountDetailsService.streamTransactionsList(this.accountId);
+      this.subscription = this.accountDetailsService.getTransactions().subscribe((transactions) => {
+        this.transactions = transactions;
+        this.finalBalance = transactions.length ? transactions[transactions.length - 1].finalBalance : null;
+      });
+    }
+  }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();

@@ -18,8 +18,8 @@
 </section>
 
 <section class="overview">
-  <div *ngIf="transactions.length > 0; else emptyState">
-    <div class="header">
+  <div *ngIf="transactions && transactions.length > 0; else emptyState">
+  <div class="header">
       <div>
         <h1>Historial de Trasacciones</h1>
       </div>
@@ -65,9 +65,13 @@
   </button>
 </div>
 
-<app-deposit-modal [(show)]="depositModal" account-id="{{accountId}}"></app-deposit-modal>
-<app-withdrawal-modal [(show)]="withdrawalModal" account-id="{{accountId}}"></app-withdrawal-modal>
+<app-deposit-modal [(show)]="depositModal" account-id="{{accountId}}"
+                   (transactionCompleted)="refreshTransactions()">
+</app-deposit-modal>
 
+<app-withdrawal-modal [(show)]="withdrawalModal" account-id="{{accountId}}"
+                      (transactionCompleted)="refreshTransactions()">
+</app-withdrawal-modal>
 
 
 
