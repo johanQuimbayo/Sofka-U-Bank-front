@@ -13,6 +13,7 @@ export class DepositModalComponent implements OnInit {
   @Input("show") show = true;
   @Input({ alias: "account-id", required: true }) accountId!: string;
   @Output() showChange = new EventEmitter<boolean>();
+  @Output() transactionCompleted = new EventEmitter<void>();
 
   transactionService = inject(TransactionService);
   notificationService = inject(NotificationsService);
@@ -32,7 +33,7 @@ export class DepositModalComponent implements OnInit {
   }
 
   send(form: NgForm) {
-    if (form.invalid) 
+    if (form.invalid)
       return;
 
     this.transactionService.perform(this.request as TransactionRequest)
@@ -46,7 +47,7 @@ export class DepositModalComponent implements OnInit {
       type: "success",
       message: "Su deposito se ha realizado con éxito"
     });
-
+    this.transactionCompleted.emit();
     this.close(form);
   }
 }

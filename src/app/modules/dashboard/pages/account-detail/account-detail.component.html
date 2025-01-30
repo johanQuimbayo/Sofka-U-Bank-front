@@ -67,9 +67,13 @@
   </button>
 </div>
 
-<app-deposit-modal [(show)]="depositModal" account-id="{{accountId}}"></app-deposit-modal>
-<app-withdrawal-modal [(show)]="withdrawalModal" account-id="{{accountId}}"></app-withdrawal-modal>
+<app-deposit-modal [(show)]="depositModal" account-id="{{accountId}}"
+                   (transactionCompleted)="refreshTransactions()">
+</app-deposit-modal>
 
+<app-withdrawal-modal [(show)]="withdrawalModal" account-id="{{accountId}}"
+                      (transactionCompleted)="refreshTransactions()">
+</app-withdrawal-modal>
 
 
 
