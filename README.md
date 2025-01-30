@@ -157,32 +157,32 @@ const routes: Routes = [
   
   ---
   
-  #### Servicio `AccountService`
+  ### Servicio `AccountService`
   - Proporciona métodos para obtener cuentas de un usuario.
   - Usa el `AuthService` para obtener el ID del usuario autenticado.
 
  ---
 
-  #### 🔐 Guard para Protección de Rutas
+  ### 🔐 Guard para Protección de Rutas
   - AuthGuard (guards/): Impide el acceso a rutas protegidas si el usuario no ha iniciado sesión.
 
  ---
 
-  #### 🔄 Interceptor para el Token
+  ### 🔄 Interceptor para el Token
   - AuthTokenInterceptor (interceptors/authToken/): Agrega el token de autenticación a cada solicitud HTTP saliente.
 
  ---
 
-  #### ⏳ Spinner de Carga
+  ### ⏳ Spinner de Carga
   - LoadSpinner (utils/load-spinner/): Se activa mientras se procesan solicitudes HTTP para mejorar la experiencia de usuario.
 
-### 🚀 Cómo Ejecutar el Proyecto
+## 🚀 Cómo Ejecutar el Proyecto
 
- #### 📌 Requisitos Previos
+ ### 📌 Requisitos Previos
  - Tener instalado Node.js y Angular CLI.
  - Clonar el repositorio y acceder a la carpeta del proyecto.
 
- #### 🛠️ Instalar Dependencias
+ ### 🛠️ Instalar Dependencias
 ```
  - npm install
  ```
@@ -194,7 +194,7 @@ const routes: Routes = [
   Esto levantará la aplicación en http://localhost:4200.
 
 
- #### 📌 Notas Finales
+ ### 📌 Notas Finales
  - CORS: Si el backend bloquea las peticiones por CORS, asegurarse de configurarlo correctamente.
 
 
