@@ -1,7 +1,7 @@
 import {Component, DestroyRef, OnInit} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import {catchError, map, Observable, of, shareReplay, tap} from 'rxjs';
+import {catchError, combineLatest, map, Observable, of, shareReplay, tap} from 'rxjs';
 import { AccountResponse } from 'src/app/models/account/response/account.response.interface';
 import { Transaction } from 'src/app/models/transaction';
 import { AccountDetailsService } from 'src/app/services/account-details/account-details.service';
@@ -17,8 +17,8 @@ export class AccountDetailComponent implements OnInit {
   withdrawalModal = false;
 
   accountId!: number;
-  account: AccountResponse = {} as AccountResponse;
 
+  account$!: Observable<AccountResponse>;
   transactions$!: Observable<Transaction[]>;
   finalBalance$!: Observable<number>;
 
@@ -36,21 +36,9 @@ export class AccountDetailComponent implements OnInit {
     this.accountId = Number(this.route.snapshot.paramMap.get('id'));
 
     if (this.accountId) {
-      this.getAccountById(this.accountId);
-
-      this.transactions$ = this.accountDetailsService.getTransactions(this.accountId).pipe(
-        takeUntilDestroyed(this.destroy$),
-        tap({
-          next: transactions => this.empty = transactions.length === 0,
-          error: _ => this.notificationService.notify({ type: "error", message: "No se pudieron encontrar transacciones" })
-        }),
-        catchError(_ => of([])),
-        shareReplay(1),
-      );
-
-      this.finalBalance$ = this.transactions$.pipe(
-        map(transactions => transactions[transactions.length - 1]?.finalBalance || this.account.balance )
-      )
+      this.account$ = this.getAccountById(this.accountId);
+      this.transactions$ = this.getTransactionsByAccountId(this.accountId);
+      this.finalBalance$ = this.getLatestTransactionBalance();
     }
   }
 
@@ -60,16 +48,38 @@ export class AccountDetailComponent implements OnInit {
       'background-color': isStriped ? '#ececed' : 'white',
     };
   }
+  
+  getAccountById(accountId: number) {
+    return this.accountDetailsService.getAccountById(accountId).pipe(
+      shareReplay(1)
+    );
+  }
 
-  getAccountById(idAccount: number) {
-    this.accountDetailsService.getAccountById(idAccount).subscribe({
-      next: (result: any) => {
-        this.account = result;
-      },
-      error: (err:any) => {
-        console.log( err )
-      }
-    })
+  getTransactionsByAccountId(accountId: number) {
+    return this.accountDetailsService.getTransactions(accountId).pipe(
+      takeUntilDestroyed(this.destroy$),
+      tap({
+        error: _ => this.notificationService.notify({ type: "error", message: "No se pudieron encontrar transacciones" }),
+        next: transactions => this.empty = transactions.length === 0,
+        complete: () => console.log("completado")
+      }),
+      catchError(_ => of([])),
+      shareReplay(1),
+    );
+  }
+
+  getLatestTransactionBalance() {
+    return combineLatest([this.account$, this.transactions$]).pipe(
+      map(([account, transactions]) => transactions.length > 0 
+        ? transactions[transactions.length - 1].finalBalance : account.balance)
+    )
+  }
+
+  refreshTransactions() {
+    if (this.empty) {
+      this.transactions$ = this.getTransactionsByAccountId(this.accountId);
+      this.finalBalance$ = this.getLatestTransactionBalance();
+    }
   }
 
   onDeposit() {

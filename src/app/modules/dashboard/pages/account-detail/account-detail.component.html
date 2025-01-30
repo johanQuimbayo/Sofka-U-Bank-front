@@ -5,16 +5,23 @@
 <section class="cards">
   <div class="card">
     <h3>Numero de cuenta</h3>
-    <p>{{account.accountNumber}}</p>
+    <ng-container *ngIf="(account$ | async) as account; else placeholderParagraph">
+      <p >{{ account.accountNumber }} </p>
+    </ng-container>
   </div>
   <div class="card">
     <h3>Tipo de cuenta</h3>
-    <p>{{account.type}}</p>
+    <ng-container *ngIf="(account$ | async) as account; else placeholderParagraph">
+      <p >{{ account.type }} </p>
+    </ng-container>
   </div>
   <div class="card">
     <h3>Saldo</h3>
     <p>{{finalBalance$ | async | currency }}</p>
   </div>
+  <ng-template #placeholderParagraph>
+    <p>No disponible</p>
+  </ng-template>
 </section>
 
 <section class="overview">

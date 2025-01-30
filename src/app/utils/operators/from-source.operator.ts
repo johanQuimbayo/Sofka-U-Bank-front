@@ -16,7 +16,6 @@ export default function fromEventSource(eventSource: EventSource, zone: NgZone) 
     
         eventSource.onerror = error => {
           zone.run(() => {
-            eventSource.close();
             observer.error(error)
           })
         };
