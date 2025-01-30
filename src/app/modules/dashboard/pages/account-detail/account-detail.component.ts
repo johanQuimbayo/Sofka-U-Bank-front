@@ -61,7 +61,6 @@ export class AccountDetailComponent implements OnInit {
       tap({
         error: _ => this.notificationService.notify({ type: "error", message: "No se pudieron encontrar transacciones" }),
         next: transactions => this.empty = transactions.length === 0,
-        complete: () => console.log("completado")
       }),
       catchError(_ => of([])),
       shareReplay(1),
