@@ -116,7 +116,7 @@ const routes: Routes = [
 
   ---
 
-  ### Dashboard 
+  ### 🛠  Dashboard 
   - Este componente carga la información del usuario autenticado y sus cuentas.
   
    #### Flujo del Componente
@@ -160,9 +160,6 @@ const routes: Routes = [
   #### Servicio `AccountService`
   - Proporciona métodos para obtener cuentas de un usuario.
   - Usa el `AuthService` para obtener el ID del usuario autenticado.
-  
-  #### `Interceptor`
-  - Clona cada petición que se esté realizando desde cualquier parte del proyecto, clona la petición y llama al servicio de auth, donde se recoge el token que está en el `sesion storage` y la agrega a los headers de esa petición
 
  ---
 
