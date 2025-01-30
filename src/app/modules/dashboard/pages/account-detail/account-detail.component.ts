@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { AccountResponse } from 'src/app/models/account/response/account.response.interface';
 import { Transaction } from 'src/app/models/transaction';
 import { AccountDetailsService } from 'src/app/services/account-details/account-details.service';
@@ -10,7 +10,7 @@ import { AccountDetailsService } from 'src/app/services/account-details/account-
   templateUrl: './account-detail.component.html',
   styleUrls: ['./account-detail.component.css']
 })
-export class AccountDetailComponent implements OnInit {
+export class AccountDetailComponent implements OnInit, OnDestroy {
   depositModal = false;
   withdrawalModal = false;
 
@@ -18,6 +18,7 @@ export class AccountDetailComponent implements OnInit {
   account: AccountResponse = {} as AccountResponse;
   transactions: Transaction[] = [];
   private subscription!: Subscription;
+  protected finalBalance!: number | null;
 
   constructor(private accountDetailsService: AccountDetailsService,
               private route: ActivatedRoute
@@ -33,8 +34,9 @@ export class AccountDetailComponent implements OnInit {
 
       this.accountDetailsService.streamTransactionsList(this.accountId);
 
-      this.accountDetailsService.getTransactions().subscribe((transactions) => {
+      this.subscription = this.accountDetailsService.getTransactions().subscribe((transactions) => {
         this.transactions = transactions;
+        this.finalBalance = transactions[transactions.length - 1].finalBalance;
       });
     }
   }
@@ -71,8 +73,7 @@ export class AccountDetailComponent implements OnInit {
 
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription?.unsubscribe();
+    this.accountDetailsService.clearTransactions();
   }
 }
