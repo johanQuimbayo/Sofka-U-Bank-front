@@ -4,7 +4,7 @@ import { EMPTY, Observable, scan, startWith, throwError } from 'rxjs';
 import {Transaction} from 'src/app/models/transaction';
 import {environment} from 'src/environments/environments';
 import {AuthService} from "../auth/auth.service";
-import fromEventSource from 'src/app/utils/operators/from-source.operator';
+import fromSource from 'src/app/utils/operators/from-source.operator';
 
 @Injectable({
   providedIn: 'root'
@@ -34,12 +34,7 @@ export class AccountDetailsService {
     if (!url)
       return EMPTY;
 
-    try {
-      return fromEventSource(new EventSource(url), this.zone)
-    } catch (error) {
-      console.log(error)
-      return throwError(() => error);
-    }
+    return fromSource(() => new EventSource(url), this.zone)
   }
 
   private getStreamUrl(accountId: number) {
