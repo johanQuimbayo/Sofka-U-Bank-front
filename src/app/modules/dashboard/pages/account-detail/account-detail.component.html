@@ -3,13 +3,13 @@
 </header>
 
 <section class="cards">
-  <div class="card">
+  <div class="card" id="account-number-card">
     <h3>Numero de cuenta</h3>
     <ng-container *ngIf="(account$ | async) as account; else placeholderParagraph">
       <p >{{ account.accountNumber }} </p>
     </ng-container>
   </div>
-  <div class="card">
+  <div class="card" id="account-type-card">
     <h3>Tipo de cuenta</h3>
     <ng-container *ngIf="(account$ | async) as account; else placeholderParagraph">
       <p >{{ account.type }} </p>
@@ -26,7 +26,7 @@
 
 <section class="overview">
   <ng-container *ngIf="(transactions$ | async) as transactions">
-    <div *ngIf="!empty; else emptyState">
+    <div class="transaction-table-container" *ngIf="!empty; else emptyState">
       <div class="header">
         <div>
           <h1>Historial de Trasacciones</h1>
@@ -43,7 +43,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let transaction of transactions$ | async; index as i" [ngStyle]="getRowStyle(i)">
+          <tr class="transaction-row" *ngFor="let transaction of transactions$ | async; index as i" [ngStyle]="getRowStyle(i)">
             <td>{{ transaction.transactionType }}</td>
             <td>{{ transaction.timestamp | timestampFormat }}</td>
             <td>{{ transaction.initialBalance | currency }} - {{ transaction.finalBalance | currency }}</td>
@@ -67,7 +67,7 @@
       Deposito
     </span>
   </button>
-  <button class="floating-btn deposit-btn" (click)="onWithdraw()">
+  <button class="floating-btn withdrawal-btn" (click)="onWithdraw()">
     <span>
     Retiro
     </span>
