@@ -4,7 +4,7 @@ import { AccountDetailsService } from './account-details.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AuthService } from '../auth/auth.service';
-import { SseClient } from 'ngx-sse-client';
+import { SseClient } from 'src/app/utils/sse/sse.client';
 import { environment } from 'src/environments/environments';
 import { Subject } from 'rxjs';
 import { Transaction } from 'src/app/models/transaction';
