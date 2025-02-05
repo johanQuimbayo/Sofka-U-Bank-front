@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, map, Observable, scan, startWith, throwError } from 'rxjs';
+import { map, Observable, scan, startWith, throwError } from 'rxjs';
 import { Transaction } from 'src/app/models/transaction';
 import { environment } from 'src/environments/environments';
 import { AuthService } from "../auth/auth.service";
-import { SseClient } from 'ngx-sse-client';
+import { SseClient } from 'src/app/utils/sse/sse.client';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +36,7 @@ export class AccountDetailsService {
 
     const url = `${this.baseReactiveUrl}/transactions/stream?accountId=${accountId}&token=${token}`
 
-    return this.sse.stream(url, { responseType: "text" }).pipe(
+    return this.sse.stream(url).pipe(
       map(data => JSON.parse(data)),
     );
   }
