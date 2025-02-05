@@ -13,7 +13,7 @@ jobs:
       packages: write
 
     steps:
-      - name: 🔄 Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Log in to GitHub Container Registry
@@ -26,4 +26,4 @@ jobs:
 
       - name: Push Docker image to GHCR
         run: |
-          docker push ghcr.io/${{ github.repository }}/sofka-u-bank-front:latest
+          docker push ghcr.io/johanquimbayo/sofka-u-bank-front:latest
