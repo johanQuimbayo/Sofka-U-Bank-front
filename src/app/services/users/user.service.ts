@@ -5,7 +5,6 @@ import {finalize, Observable, tap} from "rxjs";
 import {UserRequest} from "../../models/users/request/user.request.interface";
 import {UserResponse} from "../../models/users/response/user.response.interface";
 import {SpinnerService} from "../../utils/load-spinner/service/spinner.service";
-import {AuthResponse} from "../../models/auth/response/auth.response.interface";
 
 @Injectable({
   providedIn: 'root'

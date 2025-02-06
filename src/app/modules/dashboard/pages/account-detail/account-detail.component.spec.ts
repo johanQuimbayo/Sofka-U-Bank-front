@@ -50,7 +50,7 @@ describe('AccountDetailComponent', () => {
     }
   ]
 
-  const mockAccount: AccountResponse = { 
+  const mockAccount: AccountResponse = {
     id: parseInt(mockAccountId),
     balance: 100,
     type: 'SAVINGS',
@@ -228,13 +228,13 @@ describe('AccountDetailComponent', () => {
     it('should render not available placeholder on not found account details', () => {
       const accountNumberCard = fixture.debugElement.query(By.css('#account-number-card'));
       const accountTypeCard = fixture.debugElement.query(By.css('#account-type-card'));
-  
+
       const accountNumber = accountNumberCard.query(By.css('p'))?.nativeElement;
       const accountType = accountTypeCard.query(By.css('p'))?.nativeElement;
-  
+
       expect(accountNumber).toBeTruthy();
       expect(accountNumber.innerText).toEqual('No disponible');
-  
+
       expect(accountType).toBeTruthy();
       expect(accountType.innerText).toEqual('No disponible');
     });
