@@ -11,7 +11,7 @@ module.exports = function(config) {
             require('@angular-devkit/build-angular/plugins/karma'),
             require('karma-sonarqube-reporter')
         ],
-        reporters: ['progress', 'kjhtml', 'sonarqube', 'coverage'],
+        reporters: ['progress', 'sonarqube', 'coverage'],
         browsers: ['Chrome'],
         coverageReporter: {
             dir: require('path').join(__dirname, 'coverage'),
