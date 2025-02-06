@@ -34,7 +34,6 @@ export class WithdrawalModalComponent implements OnInit {
     this.showChange.emit(false);
     form.reset();
   }
-
   send(form: NgForm) {
     if (form.invalid)
       return;
