@@ -1,7 +1,6 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { AccountDetailsService } from './account-details.service';
-import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AuthService } from '../auth/auth.service';
 import { SseClient } from 'src/app/utils/sse/sse.client';
@@ -15,7 +14,6 @@ describe('AccountDetailsService', () => {
   let authService: jasmine.SpyObj<AuthService>;
   let sseClient: jasmine.SpyObj<SseClient>;
 
-  let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
 
   const mockAccountId = '1';
@@ -62,7 +60,6 @@ describe('AccountDetailsService', () => {
     authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     sseClient = TestBed.inject(SseClient) as jasmine.SpyObj<SseClient>;
 
-    httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
