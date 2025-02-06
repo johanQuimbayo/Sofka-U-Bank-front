@@ -25,7 +25,7 @@ jobs:
         run: npm install
 
       - name: Run tests (optional)
-        run: npm run test
+        run: npm run test:build
 
       - name: Analyze with SonarCloud
         uses: SonarSource/sonarcloud-github-action@master
