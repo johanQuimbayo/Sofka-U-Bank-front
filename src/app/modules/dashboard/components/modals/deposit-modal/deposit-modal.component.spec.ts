@@ -84,71 +84,71 @@ describe('DepositModalComponent', () => {
     it('should initialize request with transactionType DEPOSIT', () => {
       expect(component.request.transactionType).toBe('DEPOSIT');
     });
-  
+
     it('should assign accountId on ngOnInit to request', () => {
       component.ngOnInit();
       expect(component.request.accountId).toBe(mockAccountId);
     });
-  
+
     it('should call reset and set show to false on close' , () => {
       const form = jasmine.createSpyObj('NgForm', ['reset']);
       spyOn(component.showChange, 'emit');
-  
+
       component.close(form);
-  
+
       expect(component.show).toBeFalse();
       expect(component.showChange.emit).toHaveBeenCalledWith(false);
       expect(form.reset).toHaveBeenCalled();
     });
-  
+
     it('should call transaction perform if form is valid on send', () => {
       const form = { invalid: false, reset: () => {} } as NgForm;
-  
+
       transactionService.perform.and.returnValue(of({} as TransactionResponse));
-  
+
       component.send(form);
-  
+
       expect(spinnerService.show).toHaveBeenCalled();
       expect(transactionService.perform).toHaveBeenCalledWith(component.request as TransactionRequest);
     });
 
     it('should not call transaction perform if form is invalid on send', () => {
       const form = { invalid: true } as NgForm;
-  
+
       component.send(form);
-  
+
       expect(transactionService.perform).not.toHaveBeenCalled();
     });
-  
+
     it('should call spinner hide on failed transaction perform in send', () => {
       const form = { invalid: false, reset: () => {} } as NgForm;
-  
+
       transactionService.perform.and.returnValue(throwError(() => new Error('Error')));
-  
+
       component.send(form);
-  
+
       expect(spinnerService.hide).toHaveBeenCalled();
     });
-  
+
     it('should call success on completed transaction perform in send', fakeAsync(() => {
       spyOn(component, 'success');
       const form = { invalid: false, reset: () => {} } as NgForm;
-  
+
       transactionService.perform.and.returnValue(of({} as TransactionResponse));
-  
+
       component.send(form);
       tick(500);
-  
+
       expect(component.success).toHaveBeenCalledWith(form);
     }));
-  
+
     it('should notify success and emit transactionCompleted on success', () => {
       const form = jasmine.createSpyObj('NgForm', ['reset']);
       spyOn(component.transactionCompleted, 'emit');
       spyOn(component, 'close');
-  
+
       component.success(form);
-  
+
       expect(notificationService.notify).toHaveBeenCalledWith(mockSuccessNotification);
       expect(component.transactionCompleted.emit).toHaveBeenCalled();
       expect(component.close).toHaveBeenCalledWith(form);
@@ -163,36 +163,36 @@ describe('DepositModalComponent', () => {
       it('should initialize form state as invalid', () => {
         const ngForm = fixture.debugElement.query(By.directive(NgForm));
         const form = ngForm?.injector.get(NgForm);
-  
+
         expect(form).toBeDefined();
         expect(form.invalid).toBeTrue();
       });
-  
+
       it('should validate if required amount is present', () => {
         const input = fixture.debugElement.query(By.css(mockInputAmountId))?.nativeElement;
         input.value = '';
         input.dispatchEvent(new Event('input'));
-  
+
         fixture.detectChanges();
-  
+
         const ngForm = fixture.debugElement.query(By.directive(NgForm));
         const form = ngForm?.injector.get(NgForm);
-  
+
         expect(form).toBeDefined();
         expect(form.invalid).toBeTrue();
         expect(form.controls['amount'].invalid).toBeTrue();
       });
-  
+
       it('should validate if amount is a number', () => {
         const input = fixture.debugElement.query(By.css(mockInputAmountId))?.nativeElement;
         input.value = 'abc';
         input.dispatchEvent(new Event('input'));
-  
+
         fixture.detectChanges();
-  
+
         const ngForm = fixture.debugElement.query(By.directive(NgForm));
         const form = ngForm?.injector.get(NgForm);
-  
+
         expect(form).toBeDefined();
         expect(form.invalid).toBeTrue();
         expect(form.controls['amount'].invalid).toBeTrue();

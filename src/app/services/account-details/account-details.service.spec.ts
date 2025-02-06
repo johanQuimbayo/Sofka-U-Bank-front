@@ -20,26 +20,26 @@ describe('AccountDetailsService', () => {
 
   const mockAccountId = '1';
 
-  const mockFirstResponse: Transaction = { 
-    id: '1', 
-    accountId: mockAccountId, 
-    amount: 100, 
-    transactionType: 'DEPOSIT', 
-    initialBalance: 0, 
-    finalBalance: 100, 
-    userId: '1', 
-    timestamp: new Date().toISOString() 
+  const mockFirstResponse: Transaction = {
+    id: '1',
+    accountId: mockAccountId,
+    amount: 100,
+    transactionType: 'DEPOSIT',
+    initialBalance: 0,
+    finalBalance: 100,
+    userId: '1',
+    timestamp: new Date().toISOString()
   };
-    
-  const mockSecondResponse: Transaction = { 
-    id: '2', 
-    accountId: mockAccountId, 
-    amount: 100, 
-    transactionType: 'WITHDRAW', 
-    initialBalance: 100, 
-    finalBalance: 0, 
-    userId: '1', 
-    timestamp: new Date().toISOString() 
+
+  const mockSecondResponse: Transaction = {
+    id: '2',
+    accountId: mockAccountId,
+    amount: 100,
+    transactionType: 'WITHDRAW',
+    initialBalance: 100,
+    finalBalance: 0,
+    userId: '1',
+    timestamp: new Date().toISOString()
   };
 
   beforeEach(() => {

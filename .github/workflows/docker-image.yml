@@ -21,12 +21,11 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.TOKEN_GH }}
+          password: ${{ secrets.TOKEN_HUB }}
 
       - name: Build Docker image
         run: |
           docker build . -t ghcr.io/johanquimbayo/sofka-u-bank-front:latest
-
 
       - name: Push Docker image to GHCR
         run: |
