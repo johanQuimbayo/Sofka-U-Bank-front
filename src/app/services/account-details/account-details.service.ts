@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import {Injectable, NgZone} from '@angular/core';
-import { EMPTY, Observable, scan, startWith, throwError } from 'rxjs';
-import {Transaction} from 'src/app/models/transaction';
-import {environment} from 'src/environments/environments';
-import {AuthService} from "../auth/auth.service";
-import fromEventSource from 'src/app/utils/operators/from-source.operator';
+import { Injectable } from '@angular/core';
+import { map, Observable, scan, startWith, throwError } from 'rxjs';
+import { Transaction } from 'src/app/models/transaction';
+import { environment } from 'src/environments/environments';
+import { AuthService } from "../auth/auth.service";
+import { SseClient } from 'src/app/utils/sse/sse.client';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class AccountDetailsService {
   private baseUrl: string = environment.baseUrl;
   private baseReactiveUrl: string = environment.baseReactiveUrl;
 
-  constructor(private zone: NgZone, private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private sse: SseClient, private authService: AuthService) {
   }
 
   getAccountById(id: number): Observable<any> {
@@ -29,37 +29,15 @@ export class AccountDetailsService {
   }
 
   private getTransactionStreamByAccountId(accountId: number) {
-    const url = this.getStreamUrl(accountId);
-
-    if (!url)
-      return EMPTY;
-
-    try {
-      return fromEventSource(new EventSource(url), this.zone)
-    } catch (error) {
-      console.log(error)
-      return throwError(() => error);
-    }
-  }
-
-  private getStreamUrl(accountId: number) {
     const token = this.authService.getToken();
-    const account = `${accountId}`;
 
-    if (!token) return '';
+    if (!token)
+      return throwError(() => new Error('User not authenticated'));
 
-    const base = `${this.baseReactiveUrl}/transactions/stream`
-    const params = this.getAsParams({ accountId: account, token })
+    const url = `${this.baseReactiveUrl}/transactions/stream?accountId=${accountId}&token=${token}`
 
-    return `${base}?${params}`
-  }
-
-  private getAsParams(params: {[key: string]: string}) {
-    const urlParams = new URLSearchParams();
-
-    Object.entries(params)
-      .forEach(([key, value]) => urlParams.append(key, value))
-
-    return urlParams.toString();
+    return this.sse.stream(url).pipe(
+      map(data => JSON.parse(data)),
+    );
   }
 }
