@@ -1,0 +1,70 @@
+name: CI/CD Pipeline with SonarCloud and Docker
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sonarcloud-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests (optional)
+        run: npm run test
+
+      - name: Analyze with SonarCloud
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=johanQuimbayo_Sofka-U-Bank-front
+            -Dsonar.organization=johanquimbayo
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=src
+            -Dsonar.tests=src
+            -Dsonar.test.inclusions=**/*.spec.ts
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.exclusions=**/*.spec.ts,**/*.e2e.ts
+
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    needs: sonarcloud-analysis  # Dependemos de la tarea de SonarCloud
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.TOKEN_HUB }}
+
+      - name: Build Docker image
+        run: |
+          docker build . -t ghcr.io/johanquimbayo/sofka-u-bank-front:latest
+
+      - name: Push Docker image to GHCR
+        run: |
+          docker push ghcr.io/johanquimbayo/sofka-u-bank-front:latest
