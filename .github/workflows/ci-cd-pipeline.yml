@@ -27,9 +27,6 @@ jobs:
       - name: Run tests (optional)
         run: npm run test
 
-      - name: Build the application
-        run: npm run build --configuration production
-
       - name: Analyze with SonarCloud
         uses: SonarSource/sonarcloud-github-action@master
         env:
