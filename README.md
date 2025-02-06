@@ -387,6 +387,109 @@ Este módulo usa:
   ### ⏳ Spinner de Carga
   - LoadSpinner (utils/load-spinner/): Se activa mientras se procesan solicitudes HTTP para mejorar la experiencia de usuario.
 
+
+
+##  🏗  Configuración de la Contenerización con Podman y GHCR
+
+ 1.  Se creó un Dockerfile para generar la imagen del frontend:
+
+    ```
+    FROM node:18.10.0 AS build
+    WORKDIR /app
+    COPY package*.json ./
+    RUN npm install && npm install -g @angular/cli@16
+    COPY . .
+    
+    # Etapa 2: Servir la aplicación con ng serve
+    EXPOSE 4200
+    CMD ["ng", "serve", "--host", "0.0.0.0"]
+    ```
+
+  2.  Se construyó y subió la imagen al repositorio de GHCR:
+      ```
+      docker build . -t ghcr.io/johanquimbayo/sofka-u-bank-front:latest
+      docker push ghcr.io/johanquimbayo/sofka-u-bank-front:latest
+      ```
+
+
+## Configuración del CI/CD con GitHub Actions
+
+  1. 📌 Se unieron dos pipelines en uno para que primero se ejecute SonarCloud y luego se construya y publique la imagen.
+
+    ```
+    name: CI/CD Pipeline with SonarCloud & Docker
+    on:
+    push:
+    branches:
+    - main
+    pull_request:
+    branches:
+      - main
+    
+    jobs:
+    build-and-analyze:
+    runs-on: ubuntu-latest
+    permissions:
+    contents: read
+    packages: write
+    
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v4
+    
+          - name: Set up Node.js
+            uses: actions/setup-node@v3
+            with:
+              node-version: '16'
+    
+          - name: Install dependencies
+            run: npm install
+    
+          - name: Run tests (optional)
+            run: ng test --watch=false --browsers=ChromeHeadless
+    
+          - name: Analyze with SonarCloud
+            uses: SonarSource/sonarcloud-github-action@master
+            env:
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            with:
+              args: >
+                -Dsonar.projectKey=johanQuimbayo_Sofka-U-Bank-front
+                -Dsonar.organization=johanquimbayo
+                -Dsonar.host.url=https://sonarcloud.io
+                -Dsonar.sources=src
+                -Dsonar.tests=src
+                -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+                -Dsonar.exclusions=**/models/**,**/*.module.ts,**/environments/**,**/*.spec.ts,**/*.e2e.ts
+                -Dsonar.test.exclusions=**/models/**,**/*.module.ts,**/environments/**
+    
+          - name: Log in to GitHub Container Registry
+            uses: docker/login-action@v2
+            with:
+              registry: ghcr.io
+              username: ${{ github.actor }}
+              password: ${{ secrets.TOKEN_GH }}
+    
+          - name: Build Docker image
+            run: |
+              docker build . -t ghcr.io/johanquimbayo/sofka-u-bank-front:latest
+    
+          - name: Push Docker image to GHCR
+            run: |
+              docker push ghcr.io/johanquimbayo/sofka-u-bank-front:latest
+    ```
+
+  2. Se crearon las variables de entorno y las secret keys en gitHub
+
+  ![img.png](img.png)
+
+
+  3. Se creó y configuro una cuenta con proyecto en sonar cloud y esta se enlazo al repositorio de github
+    para que cada vez que se haga push o pull request a la rama main escanee el codigo de la aplicación:
+
+  ![img_1.png](img_1.png)
+
+
 ## 🚀 Cómo Ejecutar el Proyecto
 
  ### 📌 Requisitos Previos
