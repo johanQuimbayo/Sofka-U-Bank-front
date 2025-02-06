@@ -1,5 +1,5 @@
 <ng-container *ngIf="show">
-    <div class="modal-background" (click)="close(form)">
+    <div class="modal-background" (click)="close(form)" (keydown)="close(form)">
     </div>
     <article class="modal">
         <header class="modal-header">
@@ -9,14 +9,14 @@
         <form #form="ngForm" class="modal-form" (ngSubmit)="send(form)">
             <div class="input-container">
                 <label class="modal-form-label" for="withdrawal-amount-input">Monto a retirar</label>
-                <input 
-                    class="modal-form-input" 
-                    placeholder="40000" 
-                    type="number" 
-                    name="amount" 
-                    [(ngModel)]="request.amount" 
-                    #amount="ngModel" 
-                    id="withdrawal-amount-input" 
+                <input
+                    class="modal-form-input"
+                    placeholder="40000"
+                    type="number"
+                    name="amount"
+                    [(ngModel)]="request.amount"
+                    #amount="ngModel"
+                    id="withdrawal-amount-input"
                     required
                 >
                 <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="modal-form-errors">

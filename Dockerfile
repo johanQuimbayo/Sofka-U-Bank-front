@@ -2,8 +2,7 @@
 FROM node:18.10.0 AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
-RUN npm install -g @angular/cli@16
+RUN npm install && npm install -g @angular/cli@16
 COPY . .
 
 # Etapa 2: Servir la aplicación con ng serve
