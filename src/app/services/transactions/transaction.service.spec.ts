@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TransactionService } from './transaction.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { TransactionRequest, TransactionResponse } from 'src/app/dtos/transaction.dto';
 import { environment } from 'src/environments/environments';
 import { AuthService } from '../auth/auth.service';
@@ -11,7 +11,6 @@ describe('TransactionService', () => {
 
   let authService: jasmine.SpyObj<AuthService>;
 
-  let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
@@ -29,7 +28,6 @@ describe('TransactionService', () => {
 
     authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
 
-    httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 

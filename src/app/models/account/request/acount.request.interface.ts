@@ -3,5 +3,5 @@ export interface AccountRequest {
   type: string;
   customerId: number;
   balance: number;
-  accountNumber: number;
+  accountNumber?: number;
 }
