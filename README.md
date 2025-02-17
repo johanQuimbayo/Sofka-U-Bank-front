@@ -136,7 +136,7 @@ const routes: Routes = [
           component: DashboardComponent,
         },
         {
-          path: 'account-details/:id',
+          path: 'audit/:id',
           component: AccountDetailComponent
         }
       ];
@@ -181,7 +181,7 @@ const routes: Routes = [
   - Implementa `shareReplay` para optimizar la reutilización de datos.
   - Maneja eventos de los modales para refrescar la lista de transacciones tras una operación.
 
- #### `account-details.service.ts`
+ #### `audit.service.ts`
 
  Este servicio maneja las solicitudes HTTP:
 

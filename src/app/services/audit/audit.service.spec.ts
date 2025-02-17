@@ -1,15 +1,15 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
-import { AccountDetailsService } from './account-details.service';
+import { AuditService } from './audit.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AuthService } from '../auth/auth.service';
 import { SseClient } from 'src/app/utils/sse/sse.client';
 import { environment } from 'src/environments/environments';
 import { Subject } from 'rxjs';
-import { Transaction } from 'src/app/models/transaction';
+import { Transaction } from 'src/app/models/audit/transaction';
 
-describe('AccountDetailsService', () => {
-  let service: AccountDetailsService;
+describe('AuditService', () => {
+  let service: AuditService;
 
   let authService: jasmine.SpyObj<AuthService>;
   let sseClient: jasmine.SpyObj<SseClient>;
@@ -55,7 +55,7 @@ describe('AccountDetailsService', () => {
       imports: [ HttpClientTestingModule ]
     });
 
-    service = TestBed.inject(AccountDetailsService);
+    service = TestBed.inject(AuditService);
 
     authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     sseClient = TestBed.inject(SseClient) as jasmine.SpyObj<SseClient>;

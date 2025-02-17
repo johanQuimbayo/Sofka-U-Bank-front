@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TransactionRequest, TransactionResponse } from 'src/app/dtos/transaction.dto';
+import {TransactionRequest} from "../../models/transactions/request/transactions.request.interface";
+import {TransactionResponse} from "../../models/transactions/response/transacions.response.interface";
 import { environment } from 'src/environments/environments';
 import { AuthService } from '../auth/auth.service';
 import { throwError } from 'rxjs';
@@ -16,8 +17,8 @@ export class TransactionService {
 
     if (!userId)
       return throwError(() => new Error('User not authenticated'));
-    
+
     transaction.userId = `${userId}`;
-    return this.httpClient.post<TransactionResponse>(`${environment.baseReactiveUrl}/transactions`, transaction);
+    return this.httpClient.post<TransactionResponse>(`${environment.baseUrl}/transactions`, transaction);
   }
 }

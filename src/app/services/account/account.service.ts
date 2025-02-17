@@ -17,7 +17,7 @@ export class AccountService {
   }
 
   getAccounts(customerId: number | null,): Observable<AccountResponse[]> {
-    return this.http.get<AccountResponse[]>(`${this.apiUrl}/customers/${customerId}/accounts`);
+    return this.http.get<AccountResponse[]>(`${this.apiUrl}/accounts/customer/${customerId}`);
   }
 
   createAccount(account: AccountRequest): Observable<AccountResponse> {

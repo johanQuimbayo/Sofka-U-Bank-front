@@ -38,7 +38,7 @@
           <td>{{account.accountNumber}}</td>
           <td>$ {{ account.balance | number:'1.2-2' }}</td>
           <td>
-            <a [routerLink]="['/home/account-details', account.id]" title="Ver detalles">
+            <a [routerLink]="['/home/audit', account.id]" title="Ver detalles">
               <img src="assets/icons/eye.svg" alt="Ver" class="eye-icon">
             </a>
           </td>

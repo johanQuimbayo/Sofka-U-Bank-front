@@ -2,7 +2,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 
 import { NotificationComponent } from './notification.component';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
-import Notification from 'src/app/models/notification';
+import Notification from 'src/app/models/notifications/notification';
 import { By } from '@angular/platform-browser';
 
 describe('NotificationComponent', () => {
