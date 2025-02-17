@@ -15,7 +15,7 @@ export class HistoryEventsService {
 
 
   getHistoryEventsByType(type: string, page: number = 0, size: number = 10): Observable<HistoryEventsResponse[]> {
-    return this.http.get<HistoryEventsResponse[]>(`${this.apiUrl}/${type}?page=${page}&size=${size}`);
+    return this.http.get<HistoryEventsResponse[]>(`${this.apiUrl}/messages/byRecurso/${type}?page=${page}&size=${size}`);
   }
 
 
