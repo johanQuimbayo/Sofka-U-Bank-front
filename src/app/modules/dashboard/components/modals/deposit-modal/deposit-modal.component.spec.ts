@@ -7,7 +7,8 @@ import { SpinnerService } from 'src/app/utils/load-spinner/service/spinner.servi
 import { By } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
-import { TransactionRequest, TransactionResponse } from 'src/app/dtos/transaction.dto';
+import {TransactionResponse} from "../../../../../models/transactions/response/transacions.response.interface";
+import {TransactionRequest} from "../../../../../models/transactions/request/transactions.request.interface";
 import { of, throwError } from 'rxjs';
 import Notification from 'src/app/models/notifications/notification';
 

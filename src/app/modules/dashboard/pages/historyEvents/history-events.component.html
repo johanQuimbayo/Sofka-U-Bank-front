@@ -11,13 +11,21 @@
     <h3>Identificación</h3>
     <p>{{getUserDocumentNumber()}}</p>
   </div>
+  <div class="card">
+    <h3>Busqueda por: </h3>
+
+    <select class="Select-btn"  name="event-type" id="event-type">
+      <option value="entity" selected>Entidad</option>
+      <option value="resource">Recurso</option>>
+    </select>
+  </div>
 </section>
 
 <section class="overview">
-  <div *ngIf="historyEvents.length > 0; else emptyState">
+
     <div class="header">
       <div>
-        <h1>Lista de cuentas</h1>
+        <h1>Lista de Eventos</h1>
       </div>
     </div>
     <div class="table-container">
@@ -38,10 +46,7 @@
         </tbody>
       </table>
     </div>
-  </div>
-  <ng-template #emptyState>
-    <p>No hay eventos hasta la fecha.</p>
-  </ng-template>
+
 </section>
 
 

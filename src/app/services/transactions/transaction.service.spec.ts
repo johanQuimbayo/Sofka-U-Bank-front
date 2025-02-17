@@ -2,7 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TransactionService } from './transaction.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { TransactionRequest, TransactionResponse } from 'src/app/dtos/transaction.dto';
+import {TransactionResponse} from "../../models/transactions/response/transacions.response.interface";
+import {TransactionRequest} from "../../models/transactions/request/transactions.request.interface";
 import { environment } from 'src/environments/environments';
 import { AuthService } from '../auth/auth.service';
 
