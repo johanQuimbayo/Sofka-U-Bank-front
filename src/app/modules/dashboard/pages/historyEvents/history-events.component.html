@@ -40,7 +40,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let event of historyEvents">
-          <td>{{event.Fecha | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+          <td>{{event.fecha | date:'dd/MM/yyyy HH:mm:ss' }}</td>
           <td>{{ event.mensaje}}</td>
           <td>{{event.estado}} </td>
         </tr>
