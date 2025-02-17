@@ -80,8 +80,8 @@ describe('AuthService', () => {
 
   describe('#getUserId', () => {
     it('should return the userId if token exists and is valid', () => {
-      // Creamos un token dummy con payload que contiene userId: 123
-      const token = 'header.' + btoa(JSON.stringify({ userId: 123 })) + '.signature';
+      // Creamos un token dummy con payload que contiene sub: 123
+      const token = 'header.' + btoa(JSON.stringify({ sub: 123 })) + '.signature';
       localStorage.setItem('token', token);
 
       const userId = service.getUserId();

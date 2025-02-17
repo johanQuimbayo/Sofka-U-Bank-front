@@ -65,7 +65,7 @@ describe('TransactionService', () => {
         }
       });
 
-    const req = httpTestingController.expectOne(`${environment.baseReactiveUrl}/transactions`);
+    const req = httpTestingController.expectOne(`${environment.baseUrl}/transactions`);
 
     expect(transaction.userId).toEqual('1');
 
@@ -97,7 +97,7 @@ describe('TransactionService', () => {
         }
       });
 
-    const req = httpTestingController.expectOne(`${environment.baseReactiveUrl}/transactions`);
+    const req = httpTestingController.expectOne(`${environment.baseUrl}/transactions`);
 
     expect(transaction.userId).toEqual('1');
 

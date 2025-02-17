@@ -115,7 +115,7 @@ describe('HomeComponent', () => {
       expect(sidebar).toBeTruthy();
       expect(sidebar.nativeElement.textContent).toContain('Inicio');
       expect(sidebar.nativeElement.textContent).toContain('Perfil');
-      expect(sidebar.nativeElement.textContent).toContain('Ajustes');
+      expect(sidebar.nativeElement.textContent).toContain('Historial de eventos');
       expect(sidebar.nativeElement.textContent).toContain('Cerrar Sesión');
     });
 
