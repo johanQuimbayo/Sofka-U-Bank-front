@@ -13,11 +13,12 @@
   </div>
   <div class="card">
     <h3>Busqueda por: </h3>
-
-    <select class="Select-btn"  name="event-type" id="event-type">
-      <option value="entity" selected>Entidad</option>
-      <option value="resource">Recurso</option>>
+    <select class="Select-btn" name="event-type" id="event-type" [(ngModel)]="selectedFilter" (change)="loadHistoryEvents()">
+      <option value="transacion">Transacción</option>
+      <option value="usuario">Usuario</option>
+      <option value="cuenta">Cuenta</option>
     </select>
+
   </div>
 </section>
 
