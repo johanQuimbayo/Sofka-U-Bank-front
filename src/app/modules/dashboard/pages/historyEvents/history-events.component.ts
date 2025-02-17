@@ -10,6 +10,7 @@ import {AuthService} from "../../../../services/auth/auth.service";
 })
 export class HistoryEventsComponent {
 
+
   historyEvents: HistoryEventsResponse[] = [];
 
   constructor(private historyEventsService:HistoryEventsService, private authService: AuthService ) { }
