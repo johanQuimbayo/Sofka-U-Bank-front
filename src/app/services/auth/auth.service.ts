@@ -5,6 +5,7 @@ import {AuthResponse} from "../../models/auth/response/auth.response.interface";
 import {finalize, Observable, tap} from "rxjs";
 import {environment} from "../../../environments/environments";
 import {SpinnerService} from "../../utils/load-spinner/service/spinner.service";
+import {compareSegments} from "@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker";
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,8 @@ export class AuthService {
 
     try {
       const payload = this.decodeToken(token);
-      return payload.userId || null;
+      console.log(payload);
+      return parseInt( payload.sub) || null;
     } catch (error) {
       console.error("Error al decodificar el token:", error);
       return null;

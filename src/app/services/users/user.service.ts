@@ -17,7 +17,7 @@ export class UserService {
 
   register(userRequest: UserRequest) : Observable<UserResponse> {
     this.spinnerService.show();
-    return this.http.post<UserResponse>(this.apiUrl + "/customers", userRequest).pipe(
+    return this.http.post<UserResponse>(this.apiUrl + "/auth", userRequest).pipe(
       tap((response: UserResponse) => {
         console.log(response);
         alert("success registered");

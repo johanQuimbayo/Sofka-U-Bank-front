@@ -9,6 +9,7 @@ import {FormsModule} from "@angular/forms";
 import {TimestampFormatPipe} from "../../utils/pipes/timestamp-format.pipe";
 import { ModalModule } from './components/modals/modals.module';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { HistoryEventsComponent } from './pages/historyEvents/history-events.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     AccountDetailComponent,
     CreateAccountComponent,
     TimestampFormatPipe,
-    DashboardComponent
+    DashboardComponent,
+    HistoryEventsComponent
   ],
   imports: [
     CommonModule,
