@@ -11,7 +11,7 @@ import { AuthService } from '../../../../services/auth/auth.service';
 export class HistoryEventsComponent implements OnInit {
 
   historyEvents: HistoryEventsResponse[] = [];
-  selectedFilter: string = 'transacion'; // Valor por defecto
+  selectedFilter: string = 'transacción';
 
   constructor(private historyEventsService: HistoryEventsService, private authService: AuthService) { }
 

@@ -10,6 +10,7 @@ import {TimestampFormatPipe} from "../../utils/pipes/timestamp-format.pipe";
 import { ModalModule } from './components/modals/modals.module';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HistoryEventsComponent } from './pages/historyEvents/history-events.component';
+import {TruncatePipe} from "../../utils/pipes/truncate.pipe";
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { HistoryEventsComponent } from './pages/historyEvents/history-events.com
     AccountDetailComponent,
     CreateAccountComponent,
     TimestampFormatPipe,
+    TruncatePipe,
     DashboardComponent,
     HistoryEventsComponent
   ],

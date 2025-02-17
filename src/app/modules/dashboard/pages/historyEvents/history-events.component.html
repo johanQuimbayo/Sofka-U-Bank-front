@@ -14,7 +14,7 @@
   <div class="card">
     <h3>Busqueda por: </h3>
     <select class="Select-btn" name="event-type" id="event-type" [(ngModel)]="selectedFilter" (change)="loadHistoryEvents()">
-      <option value="transacion">Transacción</option>
+      <option value="transacción">Transacción</option>
       <option value="usuario">Usuario</option>
       <option value="cuenta">Cuenta</option>
     </select>
@@ -41,7 +41,7 @@
         <tbody>
         <tr *ngFor="let event of historyEvents">
           <td>{{event.fecha | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-          <td>{{ event.mensaje}}</td>
+          <td>{{ event.mensaje | truncate}}</td>
           <td>{{event.estado}} </td>
         </tr>
         </tbody>
