@@ -14,8 +14,8 @@ export class HistoryEventsService {
   constructor(private http: HttpClient,) { }
 
 
-  getHistoryEvents():  Observable<HistoryEventsResponse[]> {
-    return this.http.get<HistoryEventsResponse[]>(`${this.apiUrl}/audit`);
+  getHistoryEventsByType(type: string, page: number = 0, size: number = 10): Observable<HistoryEventsResponse[]> {
+    return this.http.get<HistoryEventsResponse[]>(`${this.apiUrl}/${type}?page=${page}&size=${size}`);
   }
 
 
