@@ -75,7 +75,7 @@ describe('AccountService', () => {
       });
 
       const req = httpTestingController.expectOne(
-        `${environment.baseUrl}/customers/${customerId}/accounts`
+        `${environment.baseUrl}/accounts/customer/${customerId}`
       );
       expect(req.request.method).toEqual('GET');
       req.flush(mockAccountResponses);

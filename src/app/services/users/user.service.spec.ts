@@ -53,7 +53,7 @@ describe('UserService', () => {
         expect(response).toEqual(mockUserResponse);
       });
 
-      const req = httpTestingController.expectOne(`${environment.baseUrl}/customers`);
+      const req = httpTestingController.expectOne(`${environment.baseUrl}/auth`);
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(mockUserRequest);
 
@@ -70,7 +70,7 @@ describe('UserService', () => {
         error: () => {}
       });
 
-      const req = httpTestingController.expectOne(`${environment.baseUrl}/customers`);
+      const req = httpTestingController.expectOne(`${environment.baseUrl}/auth`);
       req.error(new ErrorEvent('Network error'));
 
       expect(spinnerServiceSpy.show).toHaveBeenCalled();
