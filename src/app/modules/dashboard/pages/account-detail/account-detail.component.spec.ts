@@ -4,15 +4,15 @@ import { AccountDetailComponent } from './account-detail.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { ModalModule } from '../../components/modals/modals.module';
-import { AccountDetailsService } from 'src/app/services/account-details/account-details.service';
+import { AuditService } from 'src/app/services/audit/audit.service';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { EMPTY, of, throwError } from 'rxjs';
-import { Transaction } from 'src/app/models/transaction';
+import { Transaction } from 'src/app/models/audit/transaction';
 import { AccountResponse } from 'src/app/models/account/response/account.response.interface';
 import { TimestampFormatPipe } from 'src/app/utils/pipes/timestamp-format.pipe';
 import { By } from '@angular/platform-browser';
 import { TransactionService } from 'src/app/services/transactions/transaction.service';
-import { TransactionResponse } from 'src/app/dtos/transaction.dto';
+import {TransactionResponse} from "../../../../models/transactions/response/transacions.response.interface";
 
 describe('AccountDetailComponent', () => {
   let component: AccountDetailComponent;
@@ -20,7 +20,7 @@ describe('AccountDetailComponent', () => {
 
   let activatedRoute;
 
-  let accountDetailsService: jasmine.SpyObj<AccountDetailsService>;
+  let accountDetailsService: jasmine.SpyObj<AuditService>;
   let notificationService: jasmine.SpyObj<NotificationsService>;
 
   let transactionService: jasmine.SpyObj<TransactionService>;
@@ -75,7 +75,7 @@ describe('AccountDetailComponent', () => {
           useValue: mockActivatedRoute
         },
         {
-          provide: AccountDetailsService,
+          provide: AuditService,
           useValue: jasmine.createSpyObj('AccountDetailsService', ['getAccountById', 'getTransactions'])
         },
         {
@@ -95,7 +95,7 @@ describe('AccountDetailComponent', () => {
 
     activatedRoute = TestBed.inject(ActivatedRoute);
 
-    accountDetailsService = TestBed.inject(AccountDetailsService) as jasmine.SpyObj<AccountDetailsService>;
+    accountDetailsService = TestBed.inject(AuditService) as jasmine.SpyObj<AuditService>;
     notificationService = TestBed.inject(NotificationsService) as jasmine.SpyObj<NotificationsService>;
 
     transactionService = TestBed.inject(TransactionService) as jasmine.SpyObj<TransactionService>;

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { delay } from 'rxjs';
-import { TransactionRequest } from 'src/app/dtos/transaction.dto';
+import {TransactionRequest} from "../../../../../models/transactions/request/transactions.request.interface";
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { TransactionService } from 'src/app/services/transactions/transaction.service';
 import { SpinnerService } from 'src/app/utils/load-spinner/service/spinner.service';

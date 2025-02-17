@@ -3,8 +3,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import {catchError, combineLatest, map, Observable, of, shareReplay, tap} from 'rxjs';
 import { AccountResponse } from 'src/app/models/account/response/account.response.interface';
-import { Transaction } from 'src/app/models/transaction';
-import { AccountDetailsService } from 'src/app/services/account-details/account-details.service';
+import { Transaction } from 'src/app/models/audit/transaction';
+import { AuditService } from 'src/app/services/audit/audit.service';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class AccountDetailComponent implements OnInit {
 
   empty: boolean = true;
 
-  constructor(private accountDetailsService: AccountDetailsService,
+  constructor(private accountDetailsService: AuditService,
               private notificationService: NotificationsService,
               private route: ActivatedRoute,
               private destroy$: DestroyRef,

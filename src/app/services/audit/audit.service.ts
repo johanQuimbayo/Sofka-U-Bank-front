@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, scan, startWith, throwError } from 'rxjs';
-import { Transaction } from 'src/app/models/transaction';
+import { Transaction } from 'src/app/models/audit/transaction';
 import { environment } from 'src/environments/environments';
 import { AuthService } from "../auth/auth.service";
 import { SseClient } from 'src/app/utils/sse/sse.client';
@@ -9,10 +9,9 @@ import { SseClient } from 'src/app/utils/sse/sse.client';
 @Injectable({
   providedIn: 'root'
 })
-export class AccountDetailsService {
+export class AuditService {
 
   private baseUrl: string = environment.baseUrl;
-  private baseReactiveUrl: string = environment.baseReactiveUrl;
 
   constructor(private http: HttpClient, private sse: SseClient, private authService: AuthService) {
   }
@@ -34,7 +33,7 @@ export class AccountDetailsService {
     if (!token)
       return throwError(() => new Error('User not authenticated'));
 
-    const url = `${this.baseReactiveUrl}/transactions/stream?accountId=${accountId}&token=${token}`
+    const url = `${this.baseUrl}/transactions/stream?accountId=${accountId}&token=${token}`
 
     return this.sse.stream(url).pipe(
       map(data => JSON.parse(data)),

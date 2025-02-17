@@ -6,7 +6,7 @@ import { delay } from 'rxjs';
 
 interface Account {
   type: string;
-  customerId: number;
+  customerId: number | null;
   balance: number;
 }
 @Component({
@@ -29,12 +29,12 @@ export class CreateAccountComponent {
   }
 
   createAccount(): void {
-    const newAccount = {
+    const newAccount: Account = {
       type: this.accountType,
       customerId: this.authService.getUserId(),
       balance: this.balance
     };
-
+    console.log(newAccount);
     this.spinnerService.show();
 
     // @ts-ignore

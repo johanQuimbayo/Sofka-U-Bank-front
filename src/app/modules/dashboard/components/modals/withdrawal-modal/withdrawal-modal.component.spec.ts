@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
 import { TransactionRequest, TransactionResponse } from 'src/app/dtos/transaction.dto';
 import { of, throwError } from 'rxjs';
-import Notification from 'src/app/models/notification';
+import Notification from 'src/app/models/notifications/notification';
 
 describe('WithdrawalModalComponent', () => {
   let component: WithdrawalModalComponent;
