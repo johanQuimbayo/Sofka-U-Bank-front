@@ -15,8 +15,8 @@ export class HistoryEventsService {
 
 
   getHistoryEventsByType(type: string, page: number = 0, size: number = 10): Observable<HistoryEventsResponse[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/messages/byRecurso/${type}?page=${page}&size=${size}`).pipe(
-      map(response => response.map(event => ({
+    return this.http.get<any>(`${this.apiUrl}/messages/byRecurso/${type}?page=${page}&size=${size}`).pipe(
+      map(response => response.content.map((event: any) => ({
         id: event.id,
         idEntidad: event.idEntidad,
         fecha: new Date(event.fecha),
