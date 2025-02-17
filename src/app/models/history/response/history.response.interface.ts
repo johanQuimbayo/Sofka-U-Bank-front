@@ -1,7 +1,8 @@
 export interface HistoryEventsResponse {
+  id: string;
   idEntidad: string,
-  Fecha    : number,
+  fecha    : Date,
   mensaje  : string,
-  Recurso  : string,
+  recurso  : string,
   estado   : boolean
 }
